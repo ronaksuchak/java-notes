@@ -1,0 +1,85 @@
+Today's topics
+Revision
+Downcasting
+instanceof keyword
+abstract keyword
+final keyword
+static keyword 
+Java Interfaces
+------------------------------
+Revision
+Constructor invocation : via diagram
+super keyword
+1. to invoke MATCHING immeditate super cls constr(super(....))
+2. to access visible members of the super cls(super.show() / super.i)
+@Override annotation
+compile time ,method level , sub class, optional BUT reco.
+Meaning : to tell javac : treat following method as the overrding form from a super type(super class / interface)
+Javac checks for all method overriding rules : same method name , arg list same , ret type same / co variant type ,scope can't be narrowed , exc handling + ....
+
+
+Memory diagrams.
+
+Solve this(What will happen ?)
+Person p=new Person("a","b");
+sop(p.toString());
+Object ref=new Student("a1","b1",....);//no err : up casting
+sop(ref.toString());//JVM : toString from Student class
+ref=new Faculty("a2","b2",....);//up casting
+sop(ref.toString());//JVM : toString from Faculty
+Object[] objects={new Student("a11","b11",....),new Faculty("a21","b21",....)};
+for (Object o : objects)
+ sop(o.toString());
+
+Important statements
+Javac resolves method binding by the type of the reference . JVM resolves it by type of the object.
+
+-----------------------------
+Objective : Add new functionality to subclasses of Fruit.
+Apple : make jam 
+public void jam() {sop("creating "+getName()+"jam);}
+Orange : squeeze juice
+public void juice(){...}
+Cherry : make squash
+public void squash() {...}
+
+Apple a1=new Apple("apple1");
+sop(a1);//PrintStream : println(Object o) : Apple's toString ?????????????? : 
+//sop(a1) --how it will call internally a1.toString? Javadocs : PrintStream 
+a1.taste();
+a1.jam();
+
+Fruit f1=new Apple("apple2");//up casting
+f1.taste();//no javac err n Apple's taste
+((Apple)f1).jam();// no javac error : downcasting is NOT auto conversion : MUST be done explicitly!
+//f1 ---> Apple object ---> CP ---> Apple class (taste n jam)
+f1=new Orange("orange1");//f1 ---> Orange object ---> CP ---> Orange class (taste n juice)
+f1.taste();//JVM : taste() called on Orange
+((Orange)f1).juice();//works fine!
+if(f1 instanceof Apple) 
+ ((Apple)f1).jam();//fooling javac : run time error : java.lang.ClassCastException : Orange can't be cast into Apple
+else 
+sop("invalid fruit!!!!!");
+
+Solutions ? 
+1. instanceof : keyword
+2. reflection
+
+
+Look at Fruit's inheritance hierarchy .
+Why have we added taste() in super class ?
+1. Keep common behaviour in super class
+2. standardization
+3. Flexibility
+
+Is there any better solution ?
+
+Enter abstraction
+
+Apply it to Fruits / Shapes & improve the solution.
+
+abstract keyword
+
+final keyword
+
+static keyword

@@ -1,0 +1,33 @@
+JVM's classloader 
+
+The classloader is a part of the Java Runtime Environment that dynamically loads Java classes into the Java Virtual Machine. 
+
+Different types of classloaders 
+
+1. Bootstrap/primordial classloader
+Tries to load classes from the location <java_home>\jre\lib\rt.jar. 
+It doesn't have any parent classloader.
+
+2. Extension ClassLoader
+ It's a child of Bootstrap ClassLoader and loads the extensions of core java classes from  jre/lib/ext directory or  directory pointed by the system property java.ext.dirs.
+
+3. System ClassLoader / Application ClassLoader
+It's a child of Extension ClassLoader.
+ It loads the Application type classes found in the env variable CLASSPATH
+
+Working of classlaoders
+Java classes aren’t loaded into memory all at once, but loaded into memory dynamically when required by an application. 
+
+Classloading steps
+1.Loading --loading .class file in method area & JVM creates object of class Class<T> --in the heap.
+2. Linking
+2.1 Verification --JVM verifies if the loaded byte code are valid or not , are they created out of valid javac or not.
+otherwise throws --java.lang.VerfiyError
+2.2 Preparation -- Allocates memory of all static variables & assigns them with def values.
+2.3 Resolution --here symbolic references will be replaced by direct references.
+eg Tester class using String,System,Emp
+Initially in loading phase(1) , classloader will simply keep the names of these classes(Emp.class,String.class,System.class) in the constant pool of Tester class.
+In the resolution phase , these names will be actually replaced by actual refs from method area.
+3. Initialization phase 
+JVM will assign actual values to static varaibles & execute static init blocks from top to bottom & from parent class to child class.
+Any err --java.lang.LinkageError

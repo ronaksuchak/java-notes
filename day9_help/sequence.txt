@@ -1,0 +1,48 @@
+Today's topics
+Revision n assignment help using different scenario + Date Time Handling
+Debugger
+String handling
+var-args
+
+--------------------------
+2. Solve 
+Create java application for bank handling scenario along with validations.
+2.1. Create a class BankAccount -- acct no(int),customer name(string), acct type(string),balance(double),creationDate
+toString , constr.
+Methods
+public void withdraw(double amt) 
+public void deposit(double amt)
+public void transferFunds(BankAccount dest,double amt)
+public void applyInterest()
+--to apply simple interest (yearly) (period=1 yr) 
+
+2.2  Validation rules(add it in a separate class AccountValidationRules & add separate static validation methods for validation) In case of validation errors : throw the custom exception. Handle the exception in a Tester in a centralized manner.
+
+Min balance for any type of a/c =1000
+Account types supported -- saving / current /fd /loan /dmat
+Customer name --min len 4 max length 10
+a/c creation date must be within this financial year.(1st Apr 2020 --31st Mar 2021)
+
+2.3. Create a Tester with Scanner (try-with-resources)
+Menu 
+1. Open new account
+Accept a/c details from user, validate the i/ps.
+In absence of validation errs , create suitable a/c & display success message.
+In case of errs --show err mesg , via catch block.
+
+2. Display All a/c details
+
+3. Exit
+---------------------------
+String Handling : refer to diagram 
+Important points in strings : immutability , == vs equals , literal vs non-literal strings
+
+variable arguments (var-args syntax)
+
+BankAccount HAS-A KYC (Know Your Customer)
+
+Enums : refer to read me 
+
+Wrapper class  : what is it ? Why , Inheritance hierarchy
+
+Overview of nested clasees

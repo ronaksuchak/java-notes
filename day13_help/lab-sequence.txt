@@ -1,0 +1,6 @@
+1. Import day5.1 project in your workspace.
+1.1 Revise working of HashSet 
+1.2 Revise working of TreeSet
+
+2. Complete pending assignment : Ask us for help !
+3. Solve today's assignment.

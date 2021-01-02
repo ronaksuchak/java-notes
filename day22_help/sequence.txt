@@ -1,0 +1,130 @@
+Revise
+Functional i/f
+@FunctionalInterface : JDK 8 onwards
+SAM : single abstract method +[additional default /  static methods]
+eg : Runnable : public void run() 
+Comparator : public int compare(T o1,T o2) 
+
+Ways : class that imple i/f , ano inner class
+Java 8 onwards : Lambda Expressions
+Higher order functions/ methods : a func/method where anoter func can be passed or can be reted
+eg : forEach,removeIf,filter,map , reduce,collect....
+Iterable<Emp> : iterator , forEach : Higher order functions
+default public void forEach(Consumer<? super T> consumer)
+java.util.function.Consumer i/f : SAM : public void accept(T o)  => action to be taken on all elem of the underlying collection.
+eg : HashSet<Emp> emps=new HS<>();//HS -- Set ---Collection ---Iterable
+hs.add(e1).....hs.add(e100);
+//Emp : applyIncr(double incr)
+for(Emp e : hs)
+ e.applyIncr(incr); //imperative style of prog
+//declarative style 
+hs.forEach(new Consumer() {...});
+OR
+hs.forEach(e -> e.applyIncr(incr));
+//fire emps : performanceIndex < 5
+//Collection i/f : public void removeIf(Predicate<? super T> filter)
+//Predicate : func : boolean test(T t)
+hs.removeIf(e -> e.getPerformanceIndex() < 5).forEach(e ->sop(e));//javac err
+Enter Java 8 streams : nothing to do with I/O streams
+Stream : sequence of operations on the elements (array/file/collection)
+Source(array/file/collection) : stream / parallelStream 
+eg : hs.stream().//stream of all emp elems
+filter(e -> e.getPerformanceIndex() < 5).//stream of under performing emps
+.forEach(e -> sop(e));
+
+
+Java 8 Streams
+Solve 
+1.1 
+Create a multi threaded app using lambda expression.
+
+1.2 Write a tester to print avg gpa of students opted for subject JAVA
+How to convert list to a stream ? : (Collection API : stream)
+(Hint : filter,map,reduce--average)
+
+1.3 Print name of DBT topper
+(filter , special reduce operation -- max )
+//public int compare(T o1,T o2)
+eg : Comparator<Student> comp=(s1,s2) -> ((Double)s1.getGPA()).compareTo(s2.getGPA());
+Optional<Student> topper=map.values().stream().filter(s->s.getSubject().equals(Subject.DBT)).max(comp);
+if(topper.isPresent())  
+  sop(topper.get().getName());
+....
+
+
+Solve ready streams code : lab session
+
+2. Enter Networking overview
+Server side Steps
+1. Create server side socket instance : java.net.ServerSocket : control socket : 
+It will be used for : only cn establishment 
+Constr
+ServerSocket(int serverPort,int backlog)
+backlog = max no of connections(q lenth) that can be accepted concurrently from clnts.
+eg : SS ss=new SS(4500,1); //non  blocking  code
+
+2. Accept the coonection from clnt.
+Method of SS
+public Socket accept() throws IOException
+It will be used for : only data xfer(req-resp flow)
+
+3. Attach bin data streams(I/O streams java.io) to read/write data from/to socket
+3.1 InputStream getInputStream() throws IOExc
+: rets bin , un buf data stream conn to socket device(node strm) : for reading data from socket
+3.2 OutputStream getOutputStream() throws IOExc
+: rets bin , un buf data stream conn to socket device(node strm) : for writing  data to the socket.
+
+
+
+Client Side Steps
+1. Establish conn with remote server : rem IP (server IP) n server port (remote port)
+java.net.Socket : cn establishment &  data xfer 
+Socket (String remIp/hostName,int port) throws UnknownHostException,ConnectException,IOException
+
+2. Attach bin data streams(I/O streams java.io) to read/write data from/to socket
+2.1 InputStream getInputStream() throws IOExc
+: rets bin , un buf data stream conn to socket device(node strm) : for reading data from socket
+2.2 OutputStream getOutputStream() throws IOExc
+: rets bin , un buf data stream conn to socket device(node strm) : for writing  data to the socket.
+
+
+Objective : Establish conn. 
+Client sends some mesg to server : (accept it from user)
+Server simply sends text mesg back as a response.
+How to decide which streams(buf/conv) streams ?
+Depends upon : type of the data : strings : pure bin approach
+Streams : DOS & DIS
+
+
+3. Enter JDBC
+Steps 
+1. Add JDBC JAR in the classpath(add external JAR)
+2. Load JDBC driver class (com.mysql.cj.jdbc.Driver) in to method area(meta space)
+API : java.lang.Class<T> : loaded class into the method area(meta space)
+T : type of the class loaded
+eg : Class.forName("com.mysql.cj.jdbc.Driver");
+optional in Java SE , mandatory in web prog.
+2. Get a FIXED connection to DB
+API of DriverManger class
+public static Connection getConnection(String url,
+                                       String user,
+                                       String password)
+                                throws SQLException
+DB URL : jdbc:mysql://localhost:3306/test?useSSL=false
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

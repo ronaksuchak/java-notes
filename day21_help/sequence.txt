@@ -1,0 +1,132 @@
+eg : Clnt JA--->PW ---> SOS --> Socket .......Server side 
+In this case : PW : buffering , conversion (char --> byte),both , neither : BOTH
+
+1. Solve Assignemnt & revise synchronized blocks
+2. Solve the problem in thread unsafe collections
+3. Enter ITC
+4. User Threads vs Daemon Threads
+
+
+5. Java 8 New Features
+5.1 Refer to readme : "java8_new_features.txt"
+
+5.2 Lambda Expressions
+
+Objective -- Write a SINGLE method to perform ANY operation(add/subtract/multiply/divide......)   on 2 double arguments & return result.
+
+2.1 Design i/f to wrap behaviour part
+@FunctionalInterface  //any error ???? : NO (SAM)
+public interface Operation
+{
+   //public n abstract
+   double anyOperation(double a,double b);
+}
+
+2.2 Add 2 numbers 
+public class Adder imple Operation
+{
+@Override
+    double anyOperation(double a,double b)
+    {return a+b;}
+}
+
+2.2 Subtract 2 numbers 
+public class Subtractor imple Operation
+{
+@Override
+    double anyOperation(double a,double b)
+    {return a-b;}
+}
+2.3 Multiplier , Divider....
+
+3.Write a Utils class : 
+Write a static method to perform ANY operation(add/subtract/multiply/divide......)   on 2 double arguments & return result.
+public static double computeAnyOperation(double i,double j,Operation op)
+{
+  op.anyOperation(i,j);
+}
+4. Write a Tester class to test it.
+Is there any way to reduce boiler plate code ? YES
+eg : System.out.println("Product " + testOperation(10, 20,new Operation() {
+			
+			@Override
+			public double anyOperation(double a, double b) {
+				// TODO Auto-generated method stub
+				return a*b;
+			}
+		}));
+
+OR 
+
+System.out.println("Product " + testOperation(10, 20,(c,d)->c*d));
+
+
+2. Collection i/f method
+default boolean removeIf(Predicate<? super E> filter)
+Removes all of the elements of this collection that satisfy the given predicate. 
+
+java.util.Predicate<T> : func i/f
+SAM :
+boolean test(T t)
+Evaluates this predicate on the given argument.
+Objective : Create a list of ints ( growable : AL/LinkedList/Vector) .
+Remove all odd elems n print the list
+
+Next question : Can you do this in a single statement ? (i.e can you stream these 2 operations ?)
+
+
+3. Practising Lambdas
+Create a Product class -- id(int),name, category(enum) , price,manufactureDate(LocalDate)
+
+Create CollectionUtils --add a static method to return AL of products(min 5)
+(use ready code)
+
+
+Write a Tester , using lambda expression , to display available product names.
+API : forEach
+
+4. Create another Tester : 
+To remove expired products n display the list.
+Initially do it in imperative style & later replace it by declarative style(lambda expression). Instead of jumping in lambda directly, can add a step of ano inner class.
+
+5. Sort the products as per their price & display them
+(w/o lambda & then with lambda)
+
+
+6. Apply discount to older products & then display product details
+I/P discount amount & date
+
+Enter Java 8 streams
+Refer to streams sequence
+
+
+1. Display sum of all even nos between 1-100 .
+(Hint : range & filter , sum() method of IntStream)
+
+2. Display sum of product prices of a specific category.
+I/P category name
+o/p sum of prices
+
+3.Create IntStream having ints in the range of 10...50
+& Print its sum.
+Hint( rangeClosed , sum)
+
+4.Print avg of 10-50 numbers
+(rangeClosed,average & optional)
+
+5.Print avg of odd numbers between 10 & 50
+(filter,average,optional:getAsDouble)
+
+6.Print avg of square of odd nums between 10 & 50 
+(filter,map,average,Optional's get)
+
+7. Use var-args based method "of" to generate IntStream.
+eg : (10,-23,45,19,345,56,12,100)
+Find min & max values.
+(Hint : min n max methods of IntStream)
+Print sorted (asc) ints.
+(sorted method of IntStream)
+seq of ops : of --sorted --forEach
+
+
+6. Networking Overview

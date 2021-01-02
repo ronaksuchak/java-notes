@@ -1,0 +1,6 @@
+Links :
+Mysql 8 on windows
+https://www.sqlshack.com/how-to-install-mysql-database-server-8-0-19-on-windows-10/
+
+Mysql 8 on ubuntu
+https://www.tecmint.com/install-mysql-8-in-ubuntu/

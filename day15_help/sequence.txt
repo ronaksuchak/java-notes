@@ -1,0 +1,128 @@
+Understanding Iterator & ListIterators
+More on generic syntax.
+Enter Maps
+HashMap , LinkedHashMap & TreeMap
+I/O overview
+----------------------
+1. Understanding Iterator & ListIterators
+Understand API n solve code samples.
+
+2. More on generic syntax.
+Consider : Emp <----Manager <--- SalesManager
+
+Answer this , what will happen ?
+Emp e =new Manager();
+e=new SalesManager();
+ArrayList<Manager> mgrs=new ArrayList<>();
+HashSet<Emp> emps=mgrs;//javac err : generic type problem (Mgr)
+ArrayList<Emp> emps2=mgrs;//javac err : generic type problem (Mgr)
+Object o = e;
+ArrayList<Object> objs=mgrs;//javac err : generic type problem 
+objs=emps;
+
+ ?    : wild card in generic syntax (it can be replaced by ANY type)
+eg : public static void shuffle(List<?> list)
+
+? : unbounded wild or is it a bouded wild card ?
+Write a generic method that can accept any collection of numbers(int,byte,long,double....) & return its sum.
+public static double sumIt(List<? extends Number> nums)
+{
+ double sum=0;
+ for(Number n : nums)
+   sum += n.doubleValue();
+  return sum;
+}
+How to invoke ?
+main(...)
+List<Integer> ints=Arrays.asList(1,2,4,65,7);//int--->Integer
+sumIt(ints);//no err 
+List<Double> doubles=Arrays.asList(1.3,2.8,4.0,65.89,7.78);//double --->Double
+sumIt(doubles);//no err
+List<Emp> emps=Arrays.asList(new Emp(...),......);
+sumIt(emps);//javac err
+
+
+
+? : wild card
+extends : upper bound
+? extend Number : Number or it's sub type (Byte....Double)
+super : lower bound 
+? super Mgr : Mgr or its super types (Emp , Object)
+
+
+
+
+
+eg : public ArrayList(Collection<? extends E> c)
+E : Emp
+Above constr can create , a populated AL of Emps from ANY AL / LL /Vector OR HS/LHS/TS , of generic type : Emp , Mgr , SalesManger (Emp or its sub type)
+HS<SalesManger>  (salesMgrHS)=new HS<>();......
+eg : ArrayList<Mgr> mgrs=new ArrayList(salesMgrHS);//no err
+LinkedList<SalesManager> list=new LinkedList<>(mgrs);//javac err : Mgr is a super class of SalesMgr
+
+
+
+
+Bounded Wild card : extends 
+eg : ArrayList constr / addAll method
+
+
+eg : TreeSet constr.(Comparator based)
+
+eg : public TreeSet(Comparator<? super E> comparator)
+TS : Customer
+Abover constr creates an empty TS , using instance of a class that imple. Comparator of a generic type : Customer or Object
+
+
+eg : public static <T extends Comparable<? super T>> void sort(List<T> list)
+Collections.sort(empList);//javac err
+public class Emp imple Comparable<Emp>{...}
+
+---------------------------
+Map Overview
+Objectives : 
+Store bank account details in a suitable map.
+Need : constant time performance : HM
+acct  number : key
+HashMap<K,V>
+K : Integer : already imple contract
+V : BankAccount
+
+Unique ID : acct Number (int) & IFSC (string)
+HashMap<K,V> : Custom key class MyKey : acct no n ifsc .....contract (hashCode n equals) + Comparable (optionally)
+K : MyKey
+V : BankAccount
+
+
+1. Display  details of all accounts : toString
+Display all accounts : details on different lines  : convert Map ---> Collection view 
+Hint : values()
+for(BankAccount a : map.values())
+ sop(a);
+
+2. 
+get acct summary --- i/p --acct number 
+o/p --- error via custom exception OR  account details
+Hint : get(K) : Value
+containsKey
+
+
+3. funds transfer ---
+i/p sid,dest id, amt
+o/p : transfer funds o.w err msg or exc
+get / call B.L method in Account class
+
+4.Close account
+i/p id 
+Hint : remove(key)
+
+5.Apply interest on on saving type of a/cs.
+or 
+display all accts created after date.
+
+6. Attach for-each to map & observe.
+Sort the map as per : asc order of  accts Ids.
+Sort the map as per : desc order of accts Ids
+
+
+

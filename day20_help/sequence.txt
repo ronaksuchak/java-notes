@@ -1,0 +1,140 @@
+Revise
+
+Thread state transitions n API
+1. Doesn't Exist ---->NEW
+Ways : extends thread  , implements Runnable
+OR Executor frmwork
+2. NEW ---> Ready-To-Run
+public void start()
+3. Ready --> Running
+(execs run())
+4. Running ---> Ready 
+Time slice over/pre emption/ yield()
+5. Running ---> dead
+run() over => exec of thrd is over => thrd dead
+
+Trigger for IllegalThreadStateExc : 1. dead ---start()
+2. If the thread is already RUNNABLE --start
+6. Running ---> BLOCKED
+6.1 sleep : public static void sleep(long msec) throws IE
+eg : Thread.sleep(1000);//Blocked on sleep
+
+6. BLOCKED ---> Ready-to-Run(compete with other thrds in ready pool)
+
+
+extends thread 
+Which constructors of Thread class
+1. Thread() : name of thrd will be java assigned.
+2. Thread(String name)
+
+
+implements Runnable(Func i/f)
+eg : public class MyRunnable imple Runnable{...}
+Which constructors of Thread class
+1. Thread(Runnable target)
+target : instance of a class which imple Runnable i/f
+3 different ways to do this 
+1.1 Create a separate class which imple Runnable i/f
+OR
+1.2 Ano inner class which imple Runnable i/f
+OR
+1.3 Lambda expression
+
+2. Thread(Runnable target,String name)
+
+
+What is mandatory in either of scenarios (extends or implements)
+MUST override run()
+
+What will happen ?
+1. extends Thread n don't override run() : 
+2. implements Runnable  n don't implement run() : 
+
+What will happen ?
+Instead of calling start() , run() method is invoked?
+
+Refer to : "regarding Thread's start.txt"
+
+Solve : Implements Runnable
+eg : public class MyRunnableTask imple Runnable{....}
+
+eg : t1 : run() ---- t2.join(5000); // t1 : blocked on join : till t2 gets over(dead)
+Un blocking triggers : t2 is dead
+interrupt (eg : t3 : run() : t1.interrupt();//t3----> t1
+tm out : after 5secs 
+
+How to ensure no orphan threads ?
+(join)
+In main(...)
+t1.join();t2.join();t3.join();
+clean up resources.
+terminate.
+When will JVM terminate (java app terminate?) : whenever all non-daemon thrds(user thrds) are over.
+
+
+refer to blocking n un blocking triggers.
+
+------------------------------
+Problems in multi threading :
+Multiple threads are trying to access common shared resource --some thrds are reading / updating / writing : locking
+
+1. Consider joint account : BankAccount
+inst var : balance
+1.1 update balance(double amount) //orig 5000
+withdraw amount.... think time(sleep) --- cancel withdraw //500
+what should be the balance after updateBal : 5000
+1.2 check balance
+return curnt balance
+
+2. Runnable Tasks
+UpdaterTask 
+run() : invoke BankAccount's update balance
+jointAccount.updateBalance(...);
+
+CheckerTask
+run() : invoke SAME BankAccount's check balance
+ jointAccount.checkBalance();
+
+3. main : create single joint acct instance n pass it to these tasks : option 1
+
+Problem : ??????????
+Solution : ???????????
+
+
+
+4. Solve More examples
+4.1 If suppose t1 gets chance : entered test t1
+what will be next line of o/p
+
+1. exited test t1
+2. entered test t2
+3....
+
+4.2 If suppose t1 gets chance : entered test t1
+what will be next line of o/p
+
+1. exited test t1
+2. entered testMe t2
+3....
+
+4.3 If suppose t1 gets chance : entered test t1
+what will be next line of o/p
+
+1. exited test t1
+2. entered test t2
+3. any of above
+
+4.4 If suppose t1 gets chance : entered test t1
+what will be next line of o/p
+
+1. exited test t1
+2. entered testMeAgain t2
+3. any of above
+
+
+
+5. Enter ITC
+
+
+
+

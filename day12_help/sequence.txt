@@ -1,0 +1,94 @@
+Assignment Help
+public class Car
+{
+ private String regNo......+ Manufacturer vendor;
+ //constr n toString : 
+ //constr : registrationNo(string), price(double) ,color (string)manufatureDate (Date)
+ //public linkVendorDetails : company, location -- vendor=new Manufacturer(comp,loc);
+ //equals :
+@Override 
+public boolean equals(Object o) throws Exception ---javac error
+{
+  if(o instanceof Car)
+  {
+     Car c=(Car) o;
+     return this.registrationNo.equals(c.registrationNo) && this.manuDate.equals(c.manuDate) &&      this.vendor.equals(c.vendor);
+  }
+  return false;
+}
+ private class Manufacturer 
+{
+    state : company, location
+    constr , toString
+    equals : company n location : String's equals
+}
+
+}
+-----------------------
+Revise
+Collection Framework Overview
+Java 8 Date/Time Handling API
+New package : java.time
+LocalDate , LocalTime , LocalDateTime
+LocalDate : static methods . Immutable(inherent thread safety)
+now(), isBefore, isAfter, parse.....
+Solve CRUD functionality for BankAccount
+Memory diagrams
+ 
+What will hapen if in the overriding form of equals : throws InvalidInputException ?
+---------------------------
+Collection Framework Overview
+Why Collection framework
+What is it ?
+Overview
+
+Solve CRUD functionality for BankAccount
+1. open new a/c : a/c info
+2. Link KYC : acct no , KYC info
+indexOf --- index ---==-1 => throw cust exc
+accounts.get(index) -- BankAccount .linkCustomerInfo(KYC kyc)
+
+2. get a/c summary : acct no
+3. funds transfer : src acct no , dest acct no , amount
+src acct no : indexOf --- index ---==-1 => throw cust exc
+accounts.get(index) --src act ref
+dest acct no : indexOf --- index ---==-1 => throw cust exc
+accounts.get(index) --dest act ref
+src.fundsTransfer(dest,amount);
+
+
+
+
+4. Close a/c : acct no
+5. Display contact nos (phone no ) of acct holders(customers) with specific type of an a/c 
+i/p : type of acct (saving) : sc.next()
+valueOf : Enum : AcType
+Can u use : contains / indexOf /lastIndexOf 
+Searching criteria : IS NOT PK based : can't use any readymade func : contains / indexOf /lastIndexOf 
+Attach iterator : for -each 
+
+
+
+
+
+
+6. Display a/c info sorted as per a/c nos
+Got compiler error
+7. Display a/c info sorted as per creation date n balance.
+Pending!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

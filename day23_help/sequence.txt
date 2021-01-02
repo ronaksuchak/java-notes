@@ -1,0 +1,63 @@
+Revise
+What is JDBC (Java DB connectivity)
+API (java.sql) to allow prog to connect DB , perform CRUD ops
+Why ?
+Platform independent : JVM
+Partially : If the nature of the query (SQL) changes : Java app has to change (since it uses native SQL)
+DB independent : JDBC apps (Java app using JDBC API) can run on ANY DB
+java.sql : how do u get DB connection ? 
+java.sql.DriverManager : getConnection : fixed 
+If u invoke DriverManager.getConnetion : multiple time => rets cn / call
+
+How does JDBC offer DB independence ?
+Who supplies JDBC DRiver ? Typically DB vendors
+HOW ? : JAR
+Contents : 
+1. JDBC Driver : translator (Java method/data formats <------> DB understable formats)
+4 Types of JDBC driver  : Type IV JDBC Driver
+2. Imple classes of JDBC specs
+
+Who supplies JDBC specs  : oracle/sun : java.sql => i/f 
+Imple left to JDBC driver vendors(DB vendors) 
+eg : java.sql.Connection : i/f 
+Imple cls for Mysql : com.mysql.cj.jdbc.ConnectionImpl
+Imple cls for Oracle : oracle.jdbc.driver.OracleConnection
+DB2 : DB2Conn...
+Objective : display emp info using JDBC API
+Objective : display emp info(id , name , salary )  using JDBC API , for specific dept , joined between 2 dates
+eg : sql = "select empid,name,salary from my_emp where deptid=? and join_date between ? and ?"
+? : IN parameter to the query (set @ run time)
+
+Layered Architecture 
+Tester (standalone/distributed : main(...)) ---- DAO (JDBC : DBUtils) --- POJO ---DB  
+Steps
+1. DB table : my_emp
+2. POJO / Model / DTO / Entity  : Employee
+POJO cls ---- table
+POJO props --- table cols
+POJO --- row
+3. DAO layer
+3.1 DAO i/f
+public List<Employee> fetchEmpDetails(String dept,String strtDate,String endDate) throws SE
+3.2 DAO imple class
+state : cn , pst1
+1. constr : get DB cn from DBUtils, pst1=cn.prepareStmt(sql)
+2. fetchEmpDetails (CRUD)
+set IN params
+exec query : RST --processing -- List<Emp> --- close RST --rets to caller(tester)
+3. clean up :  close PSTs/STs/CSTs ----close cn
+
+Objective : Hire Emp (insert new emp record in DB)
+
+
+
+
+
+
+
+
+
+
+
+
+

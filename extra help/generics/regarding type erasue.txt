@@ -1,0 +1,108 @@
+
+Why Generics ?
+Generics are used for stricter type checks applied at compile time 
+To avoid the need of down casting 
+To avoid ClassCastException.
+
+BUT JVM doesn't need generic information.
+So , java compiler applies type erasure to avoid code bloat issues experienced with C++ templates.
+
+Type erasure is a process in which compiler replaces a generic parameter with actual class or it's bound. In type erasure, compiler ensures that no extra classes are created and there is no runtime overhead.
+
+eg 1 : 
+class Holder<T extends Number> {
+   private T t;
+
+   public void add(T t) {
+      this.t = t;
+   }
+
+   public T get() {
+      return t;
+   }   
+}
+
+Here javac will apply type erasure to result into :
+class Holder {
+   private Number t;
+
+   public void add(Number t) {
+      this.t = t;
+   }
+
+   public Number get() {
+      return t;
+   }   
+}
+
+eg 2 :
+class Holder<T> {
+   private T t;
+
+   public void add(T t) {
+      this.t = t;
+   }
+
+   public T get() {
+      return t;
+   }   
+}
+
+Here javac will apply type erasure to result into :
+class Holder {
+   private Object t;
+
+   public void add(Object t) {
+      this.t = t;
+   }
+
+   public Object get() {
+      return t;
+   }   
+}
+
+eg 3 : 
+public static  <E> boolean containsElement(E [] elements, E element){
+    for (E e : elements){
+        if(e.equals(element)){
+            return true;
+        }
+    }
+    return false;
+}
+The javac replaces the unbound type E with an actual type of Object:
+
+public static  boolean containsElement(Object [] elements, Object element){
+    for (Object e : elements){
+        if(e.equals(element)){
+            return true;
+        }
+    }
+    return false;
+}
+
+eg 4 :
+public static <E extends Comparable<E>> void printList(List<E> list) {
+    for (E element : list) {
+        System.out.printf("%s ", element);
+    }
+}
+Javac will  have the type parameter E erased and replaced with Comparable:
+
+public static void printList(List list) {
+    for (Comparable c : list) {
+        System.out.printf("%s ", (Comparable)c);
+    }
+}
+
+eg 5 :
+List<Integer> list = new ArrayList<>();
+list.add(123);
+int data  = list.get(0);
+
+Javac compiles it into 
+
+List list = new ArrayList();
+list.add(Integer.valueOf(123));//OR new Integer(123) : autoboxing
+int data= ((Integer) list.get(0)).intValue();//downcasting n auto unboxing.
+

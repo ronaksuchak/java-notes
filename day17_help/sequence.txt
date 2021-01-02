@@ -1,0 +1,80 @@
+Revise
+I/O Streams
+input stream : reads data from data src (console , socket,file , pipe....) into Java app
+output stream : write data from JA ---> device
+types of streams
+node strms : Mandatory 
+buffering : optional : large data xfers
+filtering(conversion) strms : optional : convenient 
+
+java.io overview
+day16-lab example.
+
+Enter binary streams
+read/write methods
+
+1. int data=System.in.read();
+No data : BLOCK
+10 bytes : 1 byte 
+
+2. byte[] bytes=new byte[100];
+int n=System.in.read(bytes);
+No data : BLOCK
+10 bytes :  data : bytes[0] ....bytes[9] ,  n=10
+110 bytes : n=100 ; bytes[0]...bytes[99]
+n=System.in.read(bytes);//n=10 ; bytes[0]...bytes[9]
+
+3. byte[] bytes=new byte[100];
+int n=System.in.read(bytes,5,20);
+No data : BLOCK
+10 bytes :  data :bytes[5] ....bytes[14]   n=10 
+110 bytes :  data: bytes[5] ...bytes[24]   n=20
+
+
+DataOutputStream
+DataInputStream
+
+Store n restore Student record to/from bin file: in binary data format(portable)
+
+Student s=new Student(....);//rollno , name,gpa.....
+//write this info in a bin file
+JA ----> BOS----->FOS----Bin File
+BOS out=new BOS(new FOS(binFileName));
+//roll no , gpa , age , date....
+ write(int b) / write(byte[]) / write(byte[] , off ,len)
+
+--------------------
+To check meta data about files n folders : java.io.File : class
+It represents abstract path to a file / folder.
+File(String path)
+Checking :
+public boolean exists()
+public boolean isFile()
+public boolean canRead()
+
+
+
+
+
+
+
+
+Need of Object streams
+Serialization 
+De serialization
+
+Objective :
+Create a student record. Store it in bin file using serialization.
+
+Restore student info from bin file : using de serialization.
+
+1. Student : not Serializable & Address : not Serializable 
+ 
+2. Student : Serializable & Address : Serializable , no transient address
+
+3. Student : Serializable & Address : not Serializable , transient address
+
+4.  Student : Serializable & Address : Serializable , transient address
+
+5.Create another project . Don't copy com.app.core classes & try de-serialization
+

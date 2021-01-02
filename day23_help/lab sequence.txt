@@ -1,0 +1,9 @@
+1. Import eclipse project : day23.2 , in your workspace
+
+2. Fix build path (R click on project --build path --configure build path --edit my sql connector JAR)
+
+3. Replace my DBUtils by your working DBUtils
+
+4. Revise the flow with layers (Tester---DAO(DBUtils) --POJO -- DB)
+
+5. Solve assignemnt

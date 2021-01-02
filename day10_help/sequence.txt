@@ -1,0 +1,50 @@
+Today's topics
+var-args
+Association 
+Enumeration in java
+Wrapper classes
+Nested classes overview
+Regarding equals
+Generics
+Enter Collection Framework
+--------------------------
+String Handling : refer to diagram 
+Important points in strings : immutability , == vs equals , literal vs non-literal strings 
+length
+StringBuilder : mutable char sequence.(append,insert,delete...)
+length n capacity.
+
+variable arguments (var-args syntax)
+System.out.printf("%n");//new line
+System.out.printf("%s ",sc.next());
+System.out.printf();//javac err
+System.out.printf("%c %d %.2f",'a',1234,24.5678);//no javac error
+-------------------------------------------
+Association : HAS A relationship 
+eg : class Person {
+   private String firstName,lastName;
+}
+
+BankAccount HAS-A KYC (Know Your Customer)
+BankAccount : acctNo,type ,custName,creationDate, balance+ KYC reference
+KYC : address(city) ,email ,adharCard, phoneNo ---separate class 
+BankAccount a=new BankAccount(...);
+KYC kyc1=new KYC(....);
+
+//add public static method to validate account no
+public static BankAccount validateAcctNo(int acctNo,BankAccount[] bankAccts)//bankAccts=accts
+{
+//in case of success : ret BankAcct ref
+ //o.w throw custom exc.
+}
+
+Enums : refer to read me 
+
+Wrapper class  : what is it ? Why , Inheritance hierarchy
+Is Java pure object oriented language ? NO
+Java suports both primitive types(for efficiency) n ref types 
+Is everything an Object in java ? : NO
+Can you refer anything n everything (i.e primitives n ref types) both by Object type of ref ?
+eg Object ref=new Date();
+ref=new BankAccount(....);
+ref=123.456f;//auto boxing --upcasting

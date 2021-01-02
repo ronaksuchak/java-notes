@@ -1,0 +1,89 @@
+Regarding instanceof 
+Need : To avoid ClassCastException due to invalid casting(typically in downcasting) , use instanceof checking.
+downcasting need : when super cls ref (Shape <--- Circle , Shape class ref) is referring to sub class object(i.e circle's instance) : it can access DIRECTLY (w/o downcasting) only the members available in the super cls(i.e shape). To access func added by the sub class (eg drawArc) : u need downcasting
+Shape : area() , perimeter()
+Triangle , Circle, : drawArc, .....
+Shape s=new Triangle(....);
+How to calc area n perimeter of a circle?
+s.area();//NO downcasting is needed!
+How to draw an arc of the circle ?
+if(s instanceof Circle)
+ ((Circle)s).drawArc();// ClassCastException : Triangle can't cast in to Circle
+
+Today's topics
+Revision
+Java interfaces
+Enter Exception Handling in Java
+Association(HAS-A)
+--------------------
+Revision
+Answer this.
+Emp ref=new Mgr(....);
+sop(ref);
+Why does sop(ref) actually calls sop(ref.toString())?
+Whose toString() it will call ? : Mgr's toString
+
+Can super class reference directly refer to sub class object ? 
+How does Javac resolve method binding ?
+How does JVM resolve method binding?
+Can you add overloaded methods in the same class ?
+Can you add them in super class n sub class ?
+Can you add overridden n overriding method in the same class ?
+Are there any rules regarding method overloading n access specifiers?
+Are there any rules regarding method overriding  n access specifiers ?
+Which of the following will be bound early (i.e resolved by compiler , using the type of the reference) ?
+static methods : early 
+private methods : early
+final methods : early 
+data members : early
+instance methods (non static , non-private , non final) : late (JVM : by the type object)
+Solve this (what will happen ?)
+class MySuper
+{
+  static void show()
+  {
+     sop("1");
+  }
+}
+class MySub extends MySuper
+{
+   @Override
+   static void show() //javac err
+  {
+     sop("2");
+  }
+}
+class Tester
+{
+ psvm(....)
+ {
+    MySuper ref=new MySub();
+    ref.show();//1 
+ }
+}
+
+Refer to : why static methods can't be overridden.txt
+
+Similarly solve other code samples shared in day6_help .
+
+Answer this
+Can a static method invoke directly (w/o creating instance) instance method ?
+Can a non static method access directly static data members ?
+Can abstract class contain a constructor ?
+Can it contain concrete methods ?
+
+What will happen ?
+public abstract final class A {....}
+
+What will happen ?
+abstract class A {
+private abstract void show();
+}
+------------------------
+Java Interfaces
+eg : i/f ResultSet 
+TYPE_FORWARD_ONLY 
+usage : ResultSet .TYPE_FORWARD_ONLY 
+
+
+

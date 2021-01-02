@@ -1,0 +1,44 @@
+Island of Isolation in Java
+
+
+Object 1 references Object 2 and Object 2 references Object 1. Neither Object 1 nor Object 2 is referenced by any other object. That’s an island of isolation.
+
+An island of isolation is a group of objects that reference each other but they are not referenced by any active object in the application. 
+
+Even a single unreferenced object is an island of isolation too.
+
+Eg: Solve this !
+
+
+public class Test 
+{ 
+    Test i; 
+    public static void main(String[] args)   
+    { 
+        Test t1 = new Test(); 
+        Test t2 = new Test(); 
+            
+        t1.i = t2; 
+        t2.i = t1; 
+           
+        
+        t1 = null; //how many candidates for GC ?
+        // requesting GC
+        System.gc(); 
+        System.out.println("after 1st GC");
+         
+        t2 = null; //how many candidates for GC ?
+          
+        // requesting GC
+        System.gc(); 
+        System.out.println("after 2nd GC");
+         
+    } 
+  
+    @Override
+    protected void finalize() throws Throwable  
+    {  
+        System.out.println("Finalize method called");  
+    } 
+} 
+What will be o/p?

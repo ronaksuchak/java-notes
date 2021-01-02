@@ -1,0 +1,531 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0077)https://www.programcreek.com/2011/12/monitors-java-synchronization-mechanism/ -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script async="" src="./Monitors – The Basic Idea of Java Synchronization_files/saved_resource"></script><script src="./Monitors – The Basic Idea of Java Synchronization_files/rules-p-31iz6hfFutd16.js.download" async=""></script><script src="https://securepubads.g.doubleclick.net/gampad/ads?gdfp_req=1&amp;correlator=4310005894745740&amp;output=json_html&amp;callback=googletag.impl.pubads.callbackProxy6&amp;impl=fif&amp;eid=21062089%2C21062092&amp;vrg=205&amp;guci=2.2.0.0.2.2&amp;sc=1&amp;sfv=1-0-23&amp;iu=%2F1254144%2Fprogramcreek_com-large-billboard-2&amp;sz=300x600&amp;scp=iid19%3D1875032%26t%3D134%26d%3D55920%26t1%3D134%26pvc%3D0%26ap%3D1113%26sap%3D1113%26a%3D%257C2%257C%26as%3Drevenue%26plat%3D1%26bra%3Dmod25%26ic%3D1%26at%3Dmbf%26adr%3D399%26reft%3Dn%26refs%3D120%26ga%3D2497208%26gala%3D%26rid%3D99998%26pt%3D0%26al%3D1034%26compid%3D0%26tap%3Dprogramcreek_com-large-billboard-2-1875032%26bv%3D13%26br1%3D140%26br2%3D70%26ezoic%3D1%26stl%3D31%26deal1%3D17%2C20%2C21%2C22%2C23%2C24%2C25%2C26&amp;cookie_enabled=1&amp;bc=7&amp;abxe=1&amp;lmt=1526440434&amp;dt=1526440434793&amp;frm=20&amp;biw=1071&amp;bih=448&amp;oid=3&amp;adx=0&amp;ady=0&amp;adk=2883996564&amp;gut=v2&amp;color_bg=FFFFFF&amp;color_border=FFFFFF&amp;channel=3527870687&amp;color_link=37a5d7&amp;color_text=000000&amp;color_url=F0F0F0&amp;ifi=6&amp;u_tz=330&amp;u_his=8&amp;u_h=615&amp;u_w=1088&amp;u_ah=588&amp;u_aw=1088&amp;u_cd=24&amp;u_nplug=4&amp;u_nmime=5&amp;u_sd=1.25&amp;flash=0&amp;url=https%3A%2F%2Fwww.programcreek.com%2F2011%2F12%2Fmonitors-java-synchronization-mechanism%2F&amp;ref=https%3A%2F%2Fwww.google.co.in%2F&amp;dssz=61&amp;icsg=11684721458176&amp;std=0&amp;csl=80&amp;vis=1&amp;dmc=8&amp;scr_x=0&amp;scr_y=0&amp;psz=0x-1&amp;ga_vid=1613421700.1525277435&amp;ga_sid=1526440435&amp;ga_hid=1134618912&amp;ga_fc=true&amp;ga_wpids=UA-97843467-5"></script><script src="https://securepubads.g.doubleclick.net/gampad/ads?gdfp_req=1&amp;correlator=4310005894745740&amp;output=json_html&amp;callback=googletag.impl.pubads.callbackProxy5&amp;impl=fif&amp;eid=21062089%2C21062092&amp;vrg=205&amp;guci=2.2.0.0.2.2&amp;sc=1&amp;sfv=1-0-23&amp;iu=%2F1254144%2Fprogramcreek_com-box-1&amp;sz=300x600&amp;scp=iid19%3D1834232%26t%3D134%26d%3D55920%26t1%3D134%26pvc%3D0%26ap%3D1112%26sap%3D1112%26a%3D%257C251%257C%26as%3Drevenue%26plat%3D1%26bra%3Dmod25%26ic%3D1%26at%3Dmbf%26adr%3D399%26reft%3Dtf%26refs%3D30%26ga%3D2497208%26gala%3D%26rid%3D99998%26pt%3D1%26al%3D1000%26compid%3D0%26tap%3Dprogramcreek_com-box-1-1834232%26bv%3D21%26acptad%3D1%26br1%3D350%26br2%3D180%26ezoic%3D1%26stl%3D30%26deal1%3D21%2C22%2C23%2C24%2C25%2C26&amp;cookie_enabled=1&amp;bc=7&amp;abxe=1&amp;lmt=1526440434&amp;dt=1526440434773&amp;frm=20&amp;biw=1071&amp;bih=448&amp;oid=3&amp;adx=0&amp;ady=0&amp;adk=1132302780&amp;gut=v2&amp;color_bg=FFFFFF&amp;color_border=FFFFFF&amp;channel=3527870687&amp;color_link=0C9C11&amp;color_text=000000&amp;color_url=0C9C11&amp;ifi=5&amp;u_tz=330&amp;u_his=8&amp;u_h=615&amp;u_w=1088&amp;u_ah=588&amp;u_aw=1088&amp;u_cd=24&amp;u_nplug=4&amp;u_nmime=5&amp;u_sd=1.25&amp;flash=0&amp;url=https%3A%2F%2Fwww.programcreek.com%2F2011%2F12%2Fmonitors-java-synchronization-mechanism%2F&amp;ref=https%3A%2F%2Fwww.google.co.in%2F&amp;dssz=60&amp;icsg=11684721458176&amp;std=0&amp;csl=68&amp;vis=1&amp;dmc=8&amp;scr_x=0&amp;scr_y=0&amp;psz=0x-1&amp;ga_vid=1613421700.1525277435&amp;ga_sid=1526440435&amp;ga_hid=1134618912&amp;ga_fc=true&amp;ga_wpids=UA-97843467-5"></script><script src="https://securepubads.g.doubleclick.net/gampad/ads?gdfp_req=1&amp;correlator=4310005894745740&amp;output=json_html&amp;callback=googletag.impl.pubads.callbackProxy4&amp;impl=fif&amp;eid=21062089%2C21062092&amp;vrg=205&amp;guci=2.2.0.0.2.2&amp;sc=1&amp;sfv=1-0-23&amp;iu=%2F1254144%2Fprogramcreek_com-banner-1&amp;sz=728x90&amp;scp=iid19%3D1863329%26t%3D134%26d%3D55920%26t1%3D134%26pvc%3D0%26ap%3D1116%26sap%3D1116%26a%3D%257C5%257C%26as%3Drevenue%26plat%3D1%26bra%3Dmod25%26ic%3D1%26at%3Dmbf%26adr%3D399%26reft%3Dtf%26refs%3D120%26ga%3D2497208%26gala%3D%26rid%3D99998%26pt%3D5%26al%3D1030%26compid%3D0%26tap%3Dprogramcreek_com-banner-1-1863329%26bv%3D3%26br1%3D350%26br2%3D180%26ezoic%3D1%26deal1%3D21%2C22%2C23%2C24%2C25%2C26&amp;cookie_enabled=1&amp;bc=7&amp;abxe=1&amp;lmt=1526440434&amp;dt=1526440434641&amp;frm=20&amp;biw=1071&amp;bih=448&amp;oid=3&amp;adx=0&amp;ady=0&amp;adk=3831843481&amp;gut=v2&amp;color_bg=FFFFFF&amp;color_border=FFFFFF&amp;channel=3527870687&amp;color_link=20929A&amp;color_text=000000&amp;color_url=F0F0F0&amp;ifi=4&amp;u_tz=330&amp;u_his=8&amp;u_h=615&amp;u_w=1088&amp;u_ah=588&amp;u_aw=1088&amp;u_cd=24&amp;u_nplug=4&amp;u_nmime=5&amp;u_sd=1.25&amp;flash=0&amp;url=https%3A%2F%2Fwww.programcreek.com%2F2011%2F12%2Fmonitors-java-synchronization-mechanism%2F&amp;ref=https%3A%2F%2Fwww.google.co.in%2F&amp;dssz=57&amp;icsg=689605180416&amp;std=0&amp;csl=70&amp;vis=1&amp;dmc=8&amp;scr_x=0&amp;scr_y=0&amp;psz=0x-1&amp;ga_vid=1613421700.1525277435&amp;ga_sid=1526440435&amp;ga_hid=1134618912&amp;ga_fc=true&amp;ga_wpids=UA-97843467-5"></script><script src="./Monitors – The Basic Idea of Java Synchronization_files/quant.js.download" async="" type="text/javascript"></script><script async="" src="./Monitors – The Basic Idea of Java Synchronization_files/beacon.js.download"></script><script src="https://securepubads.g.doubleclick.net/gampad/ads?gdfp_req=1&amp;correlator=4310005894745740&amp;output=json_html&amp;callback=googletag.impl.pubads.callbackProxy3&amp;impl=fif&amp;eid=21062089%2C21062092&amp;vrg=205&amp;guci=2.2.0.0.2.2&amp;sc=1&amp;sfv=1-0-23&amp;iu=%2F1254144%2Fprogramcreek_com-medrectangle-3&amp;sz=336x280&amp;scp=iid20%3D1908781%26t%3D134%26d%3D55920%26t1%3D134%26pvc%3D0%26ap%3D1136%26sap%3D1136%26a%3D%257C6%257C%26as%3Drevenue%26plat%3D1%26bra%3Dmod25%26ic%3D1%26at%3Dmbf%26adr%3D399%26reft%3Dn%26refs%3D30%26ga%3D2497208%26gala%3D%26rid%3D99998%26pt%3D8%26al%3D1021%26compid%3D0%26tap%3Dprogramcreek_com-medrectangle-3-1908781%26bv%3D2%26br1%3D240%26br2%3D120%26ezoic%3D1%26deal1%3D20%2C21%2C22%2C23%2C24%2C25%2C26&amp;cookie_enabled=1&amp;bc=7&amp;abxe=1&amp;lmt=1526440434&amp;dt=1526440434594&amp;frm=20&amp;biw=1071&amp;bih=448&amp;oid=3&amp;adx=0&amp;ady=0&amp;adk=3839355752&amp;gut=v2&amp;color_bg=FFFFFF&amp;color_border=FFFFFF&amp;channel=3527870687&amp;color_link=858585&amp;color_text=000000&amp;color_url=F0F0F0&amp;ifi=3&amp;u_tz=330&amp;u_his=8&amp;u_h=615&amp;u_w=1088&amp;u_ah=588&amp;u_aw=1088&amp;u_cd=24&amp;u_nplug=4&amp;u_nmime=5&amp;u_sd=1.25&amp;flash=0&amp;url=https%3A%2F%2Fwww.programcreek.com%2F2011%2F12%2Fmonitors-java-synchronization-mechanism%2F&amp;ref=https%3A%2F%2Fwww.google.co.in%2F&amp;dssz=55&amp;icsg=139849366528&amp;std=0&amp;vis=1&amp;dmc=8&amp;scr_x=0&amp;scr_y=0&amp;psz=0x-1&amp;ga_vid=1613421700.1525277435&amp;ga_sid=1526440435&amp;ga_hid=1134618912&amp;ga_fc=true&amp;ga_wpids=UA-97843467-5"></script><script src="https://securepubads.g.doubleclick.net/gampad/ads?gdfp_req=1&amp;correlator=4310005894745740&amp;output=json_html&amp;callback=googletag.impl.pubads.callbackProxy2&amp;impl=fif&amp;eid=21062089%2C21062092&amp;vrg=205&amp;guci=2.2.0.0.2.2&amp;sc=1&amp;sfv=1-0-23&amp;iu=%2F1254144%2Fprogramcreek_com-box-4&amp;sz=580x400&amp;scp=iid19%3D1869632%26t%3D134%26d%3D55920%26t1%3D134%26pvc%3D0%26ap%3D1132%26sap%3D1132%26a%3D%257C3%257C%26as%3Drevenue%26plat%3D1%26bra%3Dmod25%26ic%3D1%26at%3Dmbf%26adr%3D399%26reft%3Dn%26refs%3D30%26ga%3D2497208%26gala%3D%26rid%3D99998%26pt%3D6%26al%3D1003%26compid%3D0%26tap%3Dprogramcreek_com-box-4-1869632%26bv%3D3%26br1%3D240%26br2%3D120%26ezoic%3D1%26deal1%3D20%2C21%2C22%2C23%2C24%2C25%2C26&amp;cookie_enabled=1&amp;bc=7&amp;abxe=1&amp;lmt=1526440434&amp;dt=1526440434558&amp;frm=20&amp;biw=1071&amp;bih=448&amp;oid=3&amp;adx=0&amp;ady=0&amp;adk=1640794877&amp;gut=v2&amp;color_bg=FFFFFF&amp;color_border=FFFFFF&amp;channel=3527870687&amp;color_link=0000FF&amp;color_text=000000&amp;color_url=828282&amp;ifi=2&amp;u_tz=330&amp;u_his=8&amp;u_h=615&amp;u_w=1088&amp;u_ah=588&amp;u_aw=1088&amp;u_cd=24&amp;u_nplug=4&amp;u_nmime=5&amp;u_sd=1.25&amp;flash=0&amp;url=https%3A%2F%2Fwww.programcreek.com%2F2011%2F12%2Fmonitors-java-synchronization-mechanism%2F&amp;ref=https%3A%2F%2Fwww.google.co.in%2F&amp;dssz=54&amp;icsg=139849366528&amp;std=0&amp;csl=13&amp;vis=1&amp;dmc=8&amp;scr_x=0&amp;scr_y=0&amp;psz=0x-1&amp;ga_vid=1613421700.1525277435&amp;ga_sid=1526440435&amp;ga_hid=1134618912&amp;ga_fc=true&amp;ga_wpids=UA-97843467-5"></script><script src="https://securepubads.g.doubleclick.net/gampad/ads?gdfp_req=1&amp;correlator=4310005894745740&amp;output=json_html&amp;callback=googletag.impl.pubads.callbackProxy1&amp;impl=fif&amp;eid=21062089%2C21062092&amp;vrg=205&amp;guci=2.2.0.0.2.2&amp;sc=1&amp;sfv=1-0-23&amp;iu=%2F1254144%2Fprogramcreek_com-medrectangle-4&amp;sz=580x400&amp;scp=iid19%3D1894231%26t%3D134%26d%3D55920%26t1%3D134%26pvc%3D0%26ap%3D1137%26sap%3D1137%26a%3D%257C2%257C%26as%3Drevenue%26plat%3D1%26bra%3Dmod25%26ic%3D1%26at%3Dmbf%26adr%3D399%26reft%3Dtf%26refs%3D120%26ga%3D2497208%26gala%3D%26rid%3D99998%26pt%3D9%26al%3D1022%26compid%3D0%26tap%3Dprogramcreek_com-medrectangle-4-1894231%26bv%3D2%26br1%3D750%26br2%3D350%26ezoic%3D1%26deal1%3D21%2C22%2C23%2C24%2C25%2C26&amp;cookie_enabled=1&amp;bc=7&amp;abxe=1&amp;lmt=1526440434&amp;dt=1526440434540&amp;frm=20&amp;biw=1071&amp;bih=448&amp;oid=3&amp;adx=0&amp;ady=0&amp;adk=3013280925&amp;gut=v2&amp;color_bg=FFFFFF&amp;color_border=FFFFFF&amp;channel=3527870687&amp;color_link=37a5d7&amp;color_text=000000&amp;color_url=F0F0F0&amp;ifi=1&amp;u_tz=330&amp;u_his=8&amp;u_h=615&amp;u_w=1088&amp;u_ah=588&amp;u_aw=1088&amp;u_cd=24&amp;u_nplug=4&amp;u_nmime=5&amp;u_sd=1.25&amp;flash=0&amp;url=https%3A%2F%2Fwww.programcreek.com%2F2011%2F12%2Fmonitors-java-synchronization-mechanism%2F&amp;ref=https%3A%2F%2Fwww.google.co.in%2F&amp;dssz=48&amp;icsg=602603264&amp;std=0&amp;csl=14&amp;vis=1&amp;dmc=8&amp;scr_x=0&amp;scr_y=0&amp;psz=0x-1&amp;ga_vid=1613421700.1525277435&amp;ga_sid=1526440435&amp;ga_hid=1134618912&amp;ga_fc=true&amp;ga_wpids=UA-97843467-5"></script><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_rendering_205.js?cb=206"></script><script type="text/javascript" async="" src="./Monitors – The Basic Idea of Java Synchronization_files/dc.js.download"></script><script type="text/javascript" async="" src="./Monitors – The Basic Idea of Java Synchronization_files/ga.js.download"></script><script async="" type="text/javascript" src="./Monitors – The Basic Idea of Java Synchronization_files/gpt.js.download"></script><script data-cfasync="false" data-pagespeed-no-defer="">var __ez=__ez||{};__ez.evt={};__ez.ck={};__ez.dot={};__ez.template={};__ez.template.isOrig=false;__ez.evt.add=function(e,t,n){e.addEventListener?e.addEventListener(t,n,!1):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n()},__ez.evt.remove=function(e,t,n){e.removeEventListener?e.removeEventListener(t,n,!1):e.detachEvent?e.detachEvent("on"+t,n):delete e["on"+t]};__ez.ck.get=function(n,e){null!==e&&(n=n+"_"+e);for(var t=n+"=",r=decodeURIComponent(document.cookie),o=r.split(";"),i=0;i<o.length;i++){for(var u=o[i];" "===u.charAt(0);)u=u.substring(1);if(0===u.indexOf(t))return u.substring(t.length,u.length)}return""};__ez.queue=function(){var e=0,i=0,t=[],n=[],r=[],o=!0,s={func:function(e,i,n,r,o,s,a){var l=this;this.name=e,this.funcName=i,this.parameters=null===n?null:n instanceof Array?n:[n],this.isBlock=r,this.blockedBy=o,this.deleteWhenComplete=s,this.isError=!1,this.isComplete=!1,this.isInitialized=!1,this.proceedIfError=a,this.process=function(){c("... func = "+e),l.isInitialized=!0,l.isComplete=!0;var i=l.funcName.split(".");i.length>3||(3===i.length?window[i[0]][i[1]][i[2]].apply(null,this.parameters):2===i.length?window[i[0]][i[1]].apply(null,this.parameters):window[l.funcName].apply(null,this.parameters)),!0===l.deleteWhenComplete&&delete t[e],!0===l.isBlock&&(c("----- F'D: "+l.name),d())}},file:function(e,i,t,n,r,o,s){var a=this;this.name=e,this.path=i,this.async=r,this.defer=o,this.isBlock=t,this.blockedBy=n,this.isInitialized=!1,this.isError=!1,this.isComplete=!1,this.proceedIfError=s,this.process=function(){a.isInitialized=!0,c("... file = "+e);var t=document.createElement("script");t.src=i,!0===r?t.async=!0:!0===o&&(t.defer=!0),t.onerror=function(){c("----- ERR'D: "+a.name),a.isError=!0,!0===a.isBlock&&d()},t.onreadystatechange=t.onload=function(){var e=t.readyState;c("----- F'D: "+a.name),e&&!/loaded|complete/.test(e)||(a.isComplete=!0,!0===a.isBlock&&d())},document.getElementsByTagName("head")[0].appendChild(t)}}};function a(e){!0!==l(e)&&0!=o&&e.process()}function l(e){if(e.blockedBy instanceof Array)for(var i=0;i<e.blockedBy.length;i++){var n=e.blockedBy[i];if(!1===t.hasOwnProperty(n))return c(e.name+" blocked = "+n),!0;if(!0===e.proceedIfError&&!0===t[n].isError)return!1;if(!1===t[n].isComplete)return c(e.name+" blocked = "+n),!0}return!1}function c(e){var i=window.location.href,t=new RegExp("[?&]ezq=([^&#]*)","i").exec(i);"1"===(t?t[1]:null)&&console.debug(e)}function d(){++e>200||(c("let's go"),h(n),h(r))}function h(e){for(var i in e)if(!1!==e.hasOwnProperty(i)){var t=e[i];!0===t.isComplete||l(t)||!0===t.isInitialized||!0===t.isError?!0===t.isError?c(t.name+": error"):!0===t.isComplete?c(t.name+": complete already"):!0===t.isInitialized&&c(t.name+": initialized already"):t.process()}}return{addFile:function(e,i,o,l,c,d,h,f){var u=new s.file(e,i,o,l,c,d,h);!0===f?n[e]=u:r[e]=u,t[e]=u,a(u)},addFunc:function(e,o,l,c,d,h,f,u,p){!0===h&&(e=e+"_"+i++);var m=new s.func(e,o,l,c,d,f,u);!0===p?n[e]=m:r[e]=m,t[e]=m,a(m)},items:t,processAll:d,setallowLoad:function(e){o=e}}}();var __ezDotData=function(e,r){this.name=e,this.val=r};__ez.dot.b64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){var r,t,n,o,a,d,i,f="",c=0;for(e=Base64._utf8_encode(e);c<e.length;)o=(r=e.charCodeAt(c++))>>2,a=(3&r)<<4|(t=e.charCodeAt(c++))>>4,d=(15&t)<<2|(n=e.charCodeAt(c++))>>6,i=63&n,isNaN(t)?d=i=64:isNaN(n)&&(i=64),f=f+this._keyStr.charAt(o)+this._keyStr.charAt(a)+this._keyStr.charAt(d)+this._keyStr.charAt(i);return f},decode:function(e){var r,t,n,o,a,d,i="",f=0;for(e=e.replace(/[^A-Za-z0-9+/=]/g,"");f<e.length;)r=this._keyStr.indexOf(e.charAt(f++))<<2|(o=this._keyStr.indexOf(e.charAt(f++)))>>4,t=(15&o)<<4|(a=this._keyStr.indexOf(e.charAt(f++)))>>2,n=(3&a)<<6|(d=this._keyStr.indexOf(e.charAt(f++))),i+=String.fromCharCode(r),64!=a&&(i+=String.fromCharCode(t)),64!=d&&(i+=String.fromCharCode(n));return i=Base64._utf8_decode(i)},_utf8_encode:function(e){e=e.replace(/rn/g,"n");for(var r="",t=0;t<e.length;t++){var n=e.charCodeAt(t);n<128?r+=String.fromCharCode(n):n>127&&n<2048?(r+=String.fromCharCode(n>>6|192),r+=String.fromCharCode(63&n|128)):(r+=String.fromCharCode(n>>12|224),r+=String.fromCharCode(n>>6&63|128),r+=String.fromCharCode(63&n|128))}return r},_utf8_decode:function(e){for(var r="",t=0,n=c1=c2=0;t<e.length;)(n=e.charCodeAt(t))<128?(r+=String.fromCharCode(n),t++):n>191&&n<224?(c2=e.charCodeAt(t+1),r+=String.fromCharCode((31&n)<<6|63&c2),t+=2):(c2=e.charCodeAt(t+1),c3=e.charCodeAt(t+2),r+=String.fromCharCode((15&n)<<12|(63&c2)<<6|63&c3),t+=3);return r}},__ez.dot.dataToStr=function(e){if(void 0===e)return[];try{for(var r in e)e[r].val=e[r].val+""}catch(e){}return e},__ez.dot.getCC=function(){var e="XX";return"undefined"!=typeof _ezaq&&_ezaq.hasOwnProperty("country")&&(e=_ezaq.country),e},__ez.dot.getDID=function(){var e="0";return"undefined"!=typeof _ezaq&&_ezaq.hasOwnProperty("domain_id")&&(e=_ezaq.domain_id.toString()),e},__ez.dot.getEpoch=function(e){return"undefined"!=typeof _ezaq&&_ezaq.hasOwnProperty("t_epoch")&&(e=_ezaq.t_epoch),e},__ez.dot.getURL=function(e){return("undefined"!=typeof ezJsu&&1==ezJsu||"undefined"!=typeof _ez_sa&&1==_ez_sa||"undefined"!=typeof isAmp&&!0===isAmp||"undefined"!=typeof ezWp&&!0===ezWp)&&(e="//g.ezoic.net"+e),e},__ez.dot.isValid=function(e){for(var r=0;r<e.length;r++)if(e[r]instanceof __ezDotData==!1)return console.error("Invalid data. ",e[r]),!1;return!0},__ez.dot.isDefined=function(){for(var e=0;e<arguments.length;e++)if(void 0===arguments[e]||null===arguments[e])return console.error("Argument not defined. ",arguments),!1;return!0};__ez.bit=function(){function c(a,b){d(a,b),e()}function d(b,c){__ez.dot.isDefined(b)&&__ez.dot.isValid(c)&&a.push({type:"pageview",pageview_id:b,domain_id:__ez.dot.getDID(),t_epoch:__ez.dot.getEpoch(0),data:__ez.dot.dataToStr(c)})}function e(){void 0!==document.visibilityState&&"prerender"===document.visibilityState||(__ez.dot.isDefined(a)&&a.length>0&&((new Image).src=__ez.dot.getURL(b)+"?orig="+(!0===__ez.template.isOrig?1:0)+"&ds="+btoa(JSON.stringify(a))),a=[])}var a=[],b="/detroitchicago/greenoaks.gif";return{Add:d,AddAndFire:c,Fire:e}}();</script><script data-cfasync="false" data-pagespeed-no-defer="">__ez.pel=function(){function c(a,b){d(a,b,0,0,0,0,0),f()}function d(b,c,d,e,f,h,i){if(__ez.dot.isDefined(b,b.getSlotElementId)){var j=parseInt(b.getTargeting("ap")[0]),k=b.getSizes()[0],l=k.l.toString()+"x"+k.j.toString(),m=g(b),n=b.getSlotElementId();__ez.dot.isDefined(m,n)&&__ez.dot.isValid(c)&&a.push({type:"impression",impression_id:m,domain_id:__ez.dot.getDID(),unit:n,t_epoch:__ez.dot.getEpoch(0),revenue:d,est_revenue:e,ad_position:j,ad_size:l,bid_floor_filled:f,bid_floor_prev:h,stat_source_id:i,country_code:__ez.dot.getCC(),data:__ez.dot.dataToStr(c)})}}function e(b,c){var d=b.split("/");if(__ez.dot.isDefined(b)&&3===d.length&&__ez.dot.isValid(c)){var e=d[0],f=d[2];a.push({type:"impression",impression_id:f,domain_id:__ez.dot.getDID(),unit:e,t_epoch:__ez.dot.getEpoch(0),data:__ez.dot.dataToStr(c)})}}function f(){void 0!==document.visibilityState&&"prerender"===document.visibilityState||(__ez.dot.isDefined(a)&&a.length>0&&((new Image).src=__ez.dot.getURL(b)+"?orig="+(!0===__ez.template.isOrig?1:0)+"&sts="+btoa(JSON.stringify(a))),a=[])}function g(a){var b=0;try{var c=a.getTargetingMap();if(-1===a.getSlotElementId().indexOf("div-gpt-ad"))return b;if(void 0!==c)for(var e in c)if(-1!==e.indexOf("iid")&&void 0!==c[e][0]){b=c[e][0];break}}catch(a){}return b}var a=[],b="/porpoiseant/army.gif";return{Add:d,AddAndFire:c,AddById:e,Fire:f}}();var EzoicPixel=function(){this.pixels=[],this.pixelUrl="/ezoic/e.gif",("undefined"!=typeof ezJsu&&!0===ezJsu||"undefined"!=typeof _ez_sa&&!0===_ez_sa||void 0!==window.isAmp&&!0===isAmp||"undefined"!=typeof ezWp&&!0===ezWp)&&(this.pixelUrl="//g.ezoic.net"+this.pixelUrl),this.tEpoch=0,"undefined"!=typeof _ezaq&&_ezaq.hasOwnProperty("t_epoch")&&(this.tEpoch=_ezaq.t_epoch)},EzoicPixelData=function(i,e){this.name=i,this.val=e};EzoicPixel.prototype={constructor:EzoicPixel,AddAndFireImpPixel:function(i,e){this.AddImpPixel(i,e,0,0,0,0,0),this.FirePixels()},AddAndFirePVPixel:function(i,e){this.AddPVPixel(i,e),this.FirePixels()},AddImpPixel:function(i,e,t,n,o,a,r){if(this.isDefined(i,i.getSlotElementId)){var d=parseInt(i.getTargeting("ap")[0]),s=i.getSizes()[0],p=s.l.toString()+"x"+s.j.toString(),l="0",h="XX";"undefined"!=typeof _ezaq&&_ezaq.hasOwnProperty("domain_id")&&(l=_ezaq.domain_id.toString()),"undefined"!=typeof _ezaq&&_ezaq.hasOwnProperty("country")&&(h=_ezaq.country);var f=this.getSlotIID(i),c=i.getSlotElementId();this.isDefined(f,c)&&this.validateData(e)&&(e=this.convertDataToStr(e),this.pixels.push({type:"impression",impression_id:f,domain_id:l,unit:c,t_epoch:this.tEpoch,revenue:t,est_revenue:n,ad_position:d,ad_size:p,bid_floor_filled:o,bid_floor_prev:a,stat_source_id:r,country_code:h,data:e}))}},AddImpPixelById:function(i,e){var t="0";"undefined"!=typeof _ezaq&&_ezaq.hasOwnProperty("domain_id")&&(t=_ezaq.domain_id.toString());var n=i.split("/");if(this.isDefined(i)&&3===n.length&&this.validateData(e)){var o=n[0],a=n[2];e=this.convertDataToStr(e),this.pixels.push({type:"impression",impression_id:a,domain_id:t,unit:o,t_epoch:this.tEpoch,data:e})}},AddPVPixel:function(i,e){var t="0";"undefined"!=typeof _ezaq&&_ezaq.hasOwnProperty("domain_id")&&(t=_ezaq.domain_id.toString()),this.isDefined(i)&&this.validateData(e)&&(e=this.convertDataToStr(e),this.pixels.push({type:"pageview",pageview_id:i,domain_id:t,t_epoch:this.tEpoch,data:e}))},FirePixels:function(){void 0!==document.visibilityState&&"prerender"===document.visibilityState||(this.isDefined(this.pixels)&&this.pixels.length>0&&((new Image).src=this.pixelUrl+"?orig="+(!0===__ez.template.isOrig?1:0)+"&pixels="+encodeURIComponent(JSON.stringify(this.pixels))),this.pixels=[])},NewData:function(i,e){return new EzoicPixelData(i,e)},convertDataToStr:function(i){if(void 0===i)return[];try{for(var e in i)i[e].val=i[e].val+""}catch(i){}return i},getSlotIID:function(i){var e=0;try{var t=i.getTargetingMap();if(-1===i.getSlotElementId().indexOf("div-gpt-ad"))return e;if(void 0!==t)for(var n in t)if(-1!==n.indexOf("iid")&&void 0!==t[n][0]){e=t[n][0];break}}catch(i){}return e},isDefined:function(){for(var i=0;i<arguments.length;i++)if(void 0===arguments[i]||null===arguments[i])return console.error("Argument not defined. ",arguments),!1;return!0},validateData:function(i){for(var e=0;e<i.length;e++)if(i[e]instanceof EzoicPixelData==!1)return console.error("Invalid pixelData. ",i[e]),!1;return!0}};</script>
+<script type="text/javascript">
+	var __banger_pmp_deals=[{"SlotName":"/1254144/programcreek_com-box-1","Deals":[{"DealId":17,"Floor":160},{"DealId":18,"Floor":25},{"DealId":19,"Floor":100},{"DealId":20,"Floor":300}]},{"SlotName":"/1254144/programcreek_com-medrectangle-3","Deals":[{"DealId":17,"Floor":160},{"DealId":18,"Floor":25},{"DealId":19,"Floor":100}]},{"SlotName":"/1254144/programcreek_com-large-billboard-2","Deals":[{"DealId":18,"Floor":25},{"DealId":19,"Floor":100}]},{"SlotName":"/1254144/programcreek_com-medrectangle-4","Deals":[{"DealId":17,"Floor":160},{"DealId":18,"Floor":25},{"DealId":19,"Floor":100},{"DealId":20,"Floor":300}]},{"SlotName":"/1254144/programcreek_com-box-4","Deals":[{"DealId":17,"Floor":160},{"DealId":18,"Floor":25},{"DealId":19,"Floor":100}]},{"SlotName":"/1254144/programcreek_com-banner-1","Deals":[{"DealId":17,"Floor":160},{"DealId":18,"Floor":25},{"DealId":19,"Floor":100},{"DealId":20,"Floor":300}]}];
+</script>
+<script data-cfasync="false" data-pagespeed-no-defer="" type="text/javascript">
+function ez_isclean( data ) {
+    if (typeof data === 'undefined') { data = document.URL; }
+    var re = /(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))(@|%2540|%40)((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/;
+    var isClean = !re.test(data);
+    return isClean;
+}
+
+var ez_queue = new Array();
+function sort_queue(a, b)
+{
+  if( a.priority < b.priority ) return -1;
+  else if( a.priority == b.priority ) return 0;
+  else return 1;
+}
+function execute_ez_queue()
+{
+  ez_queue.sort( sort_queue );
+
+  for( var i in ez_queue )
+  {
+        if(typeof ez_queue[i].method != "undefined")
+        {
+            try{
+                ez_queue[i].method.call( null );
+            }
+            catch (err) {
+
+            }
+        }
+  }
+}
+
+window.ez_ad_units = new Array();
+window.ezslots = new Array();
+function ez_write_tag(d) {
+    if(ez_isclean() && d instanceof Array) {
+
+		ez_ad_units[ez_ad_units.length] = d;
+        var ezcmd = "googletag.cmd.push(function() {var divid = 'div-gpt-ad-"+d[1]+"-0';if(typeof ezlrarn == 'function'){ezlrarn(divid);}googletag.display(divid);var to = 0;if("+d[2]+".getTargeting('ga')[0] == '0'){to = 500;console.log('"+d[2]+" - no google');}if(window.ezDisableInitialLoad==true){setTimeout(function(){googletag.pubads().refresh(["+d[2]+"])},to);}});";
+		return ezcmd;
+    }
+    else {
+        return "1+1";
+    }
+}
+function in_array(needle, haystack) {
+    var length = haystack.length;
+    for(var i = 0; i < length; i++) {
+        if(haystack[i] == needle) return true;
+    }
+    return false;
+}
+</script><script data-cfasync="false" data-pagespeed-no-defer="" type="text/javascript">var ezrpos = new Array();var ez_current_interval;var ez_current_load = 0;</script>
+<script data-cfasync="false" type="text/javascript" data-pagespeed-no-defer="" src="https://go.ezoic.net/porpoiseant/dall2.js" async=""></script>
+<script data-cfasync="false" type="text/javascript" data-pagespeed-no-defer="">
+function epbjsRefreshSlot(e){epbjs.que.push(function(){epbjs.requestBids({adUnitCodes:[e.getSlotElementId()],bidsBackHandler:function(){epbjs.setTargetingForGPTAsync([e.getSlotElementId()])}})})}var epbjs=epbjs||{};epbjs.bidderTimeout=2500,epbjs.useAdj=true,epbjs.que=epbjs.que||[],epbjs.ezdss=epbjs.ezdss||[],epbjs.ezobid=epbjs.ezobid||[],epbjs.que.push(function(){var e=[{code: 'div-gpt-ad-programcreek_com-box-1-0', sizes: [[300,600],[160,600]], bids: [{bidder: 'districtm', params: { placementId: '12509953' }},{bidder: 'brealtime', params: { placementId: '12756618' }},{bidder: 'pulsepoint', params: { cf: '160X600', cp: 560269, ct: 472595 }},{bidder: 'aol',params: { placement: '4308141', network: '10765.1' }},{bidder: 'sonobi', params: { placement_id: '507eb80cf92592557f50' }}] },{code: 'div-gpt-ad-programcreek_com-medrectangle-3-0', sizes: [[336,280],[300,250]], bids: [{bidder: 'districtm', params: { placementId: '12509953' }},{bidder: 'brealtime', params: { placementId: '12756618' }},{bidder: 'pulsepoint', params: { cf: '300X250', cp: 560269, ct: 472597 }},{bidder: 'aol',params: { placement: '4308143', network: '10765.1' }},{bidder: 'sonobi', params: { placement_id: '507eb80cf92592557f50' }}] },{code: 'div-gpt-ad-programcreek_com-large-billboard-2-0', sizes: [[160,600],[300,600]], bids: [{bidder: 'districtm', params: { placementId: '12509953' }},{bidder: 'brealtime', params: { placementId: '12756618' }},{bidder: 'pulsepoint', params: { cf: '300X600', cp: 560269, ct: 472602 }},{bidder: 'aol',params: { placement: '4308142', network: '10765.1' }},{bidder: 'sonobi', params: { placement_id: '507eb80cf92592557f50' }}] },{code: 'div-gpt-ad-programcreek_com-medrectangle-4-0', sizes: [[580,400],[336,280],[300,250]], bids: [{bidder: 'districtm', params: { placementId: '12509953' }},{bidder: 'brealtime', params: { placementId: '12756618' }},{bidder: 'pulsepoint', params: { cf: '300X250', cp: 560269, ct: 472597 }},{bidder: 'aol',params: { placement: '4308143', network: '10765.1' }},{bidder: 'sonobi', params: { placement_id: '507eb80cf92592557f50' }}] },{code: 'div-gpt-ad-programcreek_com-box-4-0', sizes: [[580,400],[336,280],[300,250]], bids: [{bidder: 'districtm', params: { placementId: '12509953' }},{bidder: 'brealtime', params: { placementId: '12756618' }},{bidder: 'pulsepoint', params: { cf: '300X250', cp: 560269, ct: 472597 }},{bidder: 'aol',params: { placement: '4308143', network: '10765.1' }},{bidder: 'sonobi', params: { placement_id: '507eb80cf92592557f50' }}] },{code: 'div-gpt-ad-programcreek_com-banner-1-0', sizes: [[728,90]], bids: [{bidder: 'districtm', params: { placementId: '12509953' }},{bidder: 'brealtime', params: { placementId: '12756618' }},{bidder: 'pulsepoint', params: { cf: '728X90', cp: 560269, ct: 472601 }},{bidder: 'aol',params: { placement: '4308144', network: '10765.1' }},{bidder: 'sonobi', params: { placement_id: '507eb80cf92592557f50' }}] }];epbjs.addAdUnits(e);epbjs.aliasBidder('appnexus', 'districtm');epbjs.aliasBidder('appnexus', 'brealtime');epbjs.SS={"aol":10028,"brealtime":10039,"districtm":10035,"pulsepoint":10019,"sonobi":10048},epbjs.bidderSettings={districtm: { bidCpmAdjustment: function(bidCpm) { var adj1 = bidCpm * 0.800000; var adj2 = adj1 * 1.300000; return adj2; }},brealtime: { bidCpmAdjustment: function(bidCpm) { var adj1 = bidCpm * 0.770000; var adj2 = adj1 * 1.300000; return adj2; }},pulsepoint: { bidCpmAdjustment: function(bidCpm) { var adj1 = bidCpm * 0.750000; var adj2 = adj1 * 1.300000; return adj2; }},aol: { bidCpmAdjustment: function(bidCpm) { var adj1 = bidCpm * 0.910000; var adj2 = adj1 * 1.300000; return adj2; }},sonobi: { bidCpmAdjustment: function(bidCpm) { var adj1 = bidCpm * 0.700000; var adj2 = adj1 * 1.300000; return adj2; }},standard:{adserverTargeting:[{key:"hb_bidder",val:function(e){return e.bidderCode}},{key:"hb_adid",val:function(e){return e.adId}},{key:"hb_pb",val:function(e){var s=e.cpm;return 5>s?(Math.floor(100*s)/100).toFixed(2):(Math.floor(10*s)/10).toFixed(2)}},{key:"hb_ssid",val:function(e){return"ehb"==e.bidder?0:"undefined"!=typeof epbjs.SS[e.bidder.toLowerCase()]?epbjs.SS[e.bidder.toLowerCase()]:(console.error("epbjs: NO MATCH"),0)}}]}},epbjs.onEvent("bidWon",function(e){"ehb"==e.bidder?epbjs.ezdss[e.adUnitCode]=e.ss:"undefined"!=typeof epbjs.SS[e.bidder.toLowerCase()]?(epbjs.ezdss[e.adUnitCode]=epbjs.SS[e.bidder.toLowerCase()],1==epbjs.useAdj&&["sovrn","openx","pulsepoint","defymedia","aol","conversant","districtm","admedia","brealtime","sonobi","criteo","indexExchange","cox","audienceNetwork"].indexOf(e.bidder)>-1&&(epbjs.ezobid[e.adUnitCode]=e.cpm/1.300000)):console.error("epbjs: NO MATCH")}),epbjs.requestBids({bidsBackHandler:function(e){epbjs.fastLoadAuctionEnd = true; epbjs.setTargetingForGPTAsync()}})});
+</script><script data-cfasync="false" data-pagespeed-no-defer="" type="text/javascript">window.isEZABL=false;window.ezmadspc=300;window.ezoViewCheck = false;</script><script data-cfasync="false" data-pagespeed-no-defer="" type="text/javascript">window.ezDisableInitialLoad=false;</script><script data-cfasync="false" data-pagespeed-no-defer="" type="text/javascript">
+window.googletag = window.googletag || {};
+googletag.cmd = googletag.cmd || [];
+(function() {
+var gads = document.createElement('script');
+gads.async = true;
+gads.type = 'text/javascript';
+var useSSL = 'https:' == document.location.protocol;
+gads.src = (useSSL ? 'https:' : 'http:') +
+'//www.googletagservices.com/tag/js/gpt.js';
+var node = document.getElementsByTagName('script')[0];
+node.parentNode.insertBefore(gads, node);
+})();
+
+
+
+</script>
+<script data-cfasync="false" data-pagespeed-no-defer="" type="text/javascript">
+googletag.cmd.push(function() {googletag.destroySlots();if(typeof window.isEZABL == 'undefined' || window.isEZABL != true) {ezslot_0 = googletag.defineSlot('/1254144/programcreek_com-box-1',[300,600],'div-gpt-ad-programcreek_com-box-1-0').addService(googletag.pubads()).setTargeting('iid19','1834232').setTargeting('t','134').setTargeting('d','55920').setTargeting('t1','134').setTargeting('pvc','0').setTargeting('ap','1112').setTargeting('sap','1112').setTargeting('a','|251|').setTargeting('as','revenue').setTargeting('plat','1').setTargeting('bra','mod25').setTargeting('ic','1').setTargeting('at','mbf').setTargeting('adr','399').setTargeting('reft','tf').setTargeting('refs','30').setTargeting('ga','2497208').setTargeting('gala','').setTargeting('rid','99998').setTargeting('pt','1').setTargeting('al','1000').setTargeting('compid','0').setTargeting('tap','programcreek_com-box-1-1834232').setTargeting('bv','21').setTargeting('acptad','1').setCollapseEmptyDiv(false).setTargeting('br1','350').setTargeting('br2','180').setTargeting('ezoic','1').setTargeting('stl','30').setTargeting('deal1',[21,22,23,24,25,26]);ezslot_0.set('adsense_background_color','FFFFFF').set('adsense_border_color','FFFFFF').set('adsense_channel_ids','3527870687').set('adsense_link_color','0C9C11').set('adsense_text_color','000000').set('adsense_url_color','0C9C11');ezrpos[0]="0";ezslot_1 = googletag.defineSlot('/1254144/programcreek_com-medrectangle-3',[336,280],'div-gpt-ad-programcreek_com-medrectangle-3-0').addService(googletag.pubads()).setTargeting('iid20','1908781').setTargeting('t','134').setTargeting('d','55920').setTargeting('t1','134').setTargeting('pvc','0').setTargeting('ap','1136').setTargeting('sap','1136').setTargeting('a','|6|').setTargeting('as','revenue').setTargeting('plat','1').setTargeting('bra','mod25').setTargeting('ic','1').setTargeting('at','mbf').setTargeting('adr','399').setTargeting('reft','n').setTargeting('refs','30').setTargeting('ga','2497208').setTargeting('gala','').setTargeting('rid','99998').setTargeting('pt','8').setTargeting('al','1021').setTargeting('compid','0').setTargeting('tap','programcreek_com-medrectangle-3-1908781').setTargeting('bv','2').setCollapseEmptyDiv(false).setTargeting('br1','240').setTargeting('br2','120').setTargeting('ezoic','1').setTargeting('deal1',[20,21,22,23,24,25,26]);ezslot_1.set('adsense_background_color','FFFFFF').set('adsense_border_color','FFFFFF').set('adsense_channel_ids','3527870687').set('adsense_link_color','858585').set('adsense_text_color','000000').set('adsense_url_color','F0F0F0');ezrpos[1]="1";ezslot_2 = googletag.defineSlot('/1254144/programcreek_com-large-billboard-2',[300,600],'div-gpt-ad-programcreek_com-large-billboard-2-0').addService(googletag.pubads()).setTargeting('iid19','1875032').setTargeting('t','134').setTargeting('d','55920').setTargeting('t1','134').setTargeting('pvc','0').setTargeting('ap','1113').setTargeting('sap','1113').setTargeting('a','|2|').setTargeting('as','revenue').setTargeting('plat','1').setTargeting('bra','mod25').setTargeting('ic','1').setTargeting('at','mbf').setTargeting('adr','399').setTargeting('reft','n').setTargeting('refs','120').setTargeting('ga','2497208').setTargeting('gala','').setTargeting('rid','99998').setTargeting('pt','0').setTargeting('al','1034').setTargeting('compid','0').setTargeting('tap','programcreek_com-large-billboard-2-1875032').setTargeting('bv','13').setCollapseEmptyDiv(false).setTargeting('br1','140').setTargeting('br2','70').setTargeting('ezoic','1').setTargeting('stl','31').setTargeting('deal1',[17,20,21,22,23,24,25,26]);ezslot_2.set('adsense_background_color','FFFFFF').set('adsense_border_color','FFFFFF').set('adsense_channel_ids','3527870687').set('adsense_link_color','37a5d7').set('adsense_text_color','000000').set('adsense_url_color','F0F0F0');ezrpos[2]="2";ezslot_3 = googletag.defineSlot('/1254144/programcreek_com-medrectangle-4',[580,400],'div-gpt-ad-programcreek_com-medrectangle-4-0').addService(googletag.pubads()).setTargeting('iid19','1894231').setTargeting('t','134').setTargeting('d','55920').setTargeting('t1','134').setTargeting('pvc','0').setTargeting('ap','1137').setTargeting('sap','1137').setTargeting('a','|2|').setTargeting('as','revenue').setTargeting('plat','1').setTargeting('bra','mod25').setTargeting('ic','1').setTargeting('at','mbf').setTargeting('adr','399').setTargeting('reft','tf').setTargeting('refs','120').setTargeting('ga','2497208').setTargeting('gala','').setTargeting('rid','99998').setTargeting('pt','9').setTargeting('al','1022').setTargeting('compid','0').setTargeting('tap','programcreek_com-medrectangle-4-1894231').setTargeting('bv','2').setCollapseEmptyDiv(false).setTargeting('br1','750').setTargeting('br2','350').setTargeting('ezoic','1').setTargeting('deal1',[21,22,23,24,25,26]);ezslot_3.set('adsense_background_color','FFFFFF').set('adsense_border_color','FFFFFF').set('adsense_channel_ids','3527870687').set('adsense_link_color','37a5d7').set('adsense_text_color','000000').set('adsense_url_color','F0F0F0');ezrpos[3]="3";ezslot_4 = googletag.defineSlot('/1254144/programcreek_com-box-4',[580,400],'div-gpt-ad-programcreek_com-box-4-0').addService(googletag.pubads()).setTargeting('iid19','1869632').setTargeting('t','134').setTargeting('d','55920').setTargeting('t1','134').setTargeting('pvc','0').setTargeting('ap','1132').setTargeting('sap','1132').setTargeting('a','|3|').setTargeting('as','revenue').setTargeting('plat','1').setTargeting('bra','mod25').setTargeting('ic','1').setTargeting('at','mbf').setTargeting('adr','399').setTargeting('reft','n').setTargeting('refs','30').setTargeting('ga','2497208').setTargeting('gala','').setTargeting('rid','99998').setTargeting('pt','6').setTargeting('al','1003').setTargeting('compid','0').setTargeting('tap','programcreek_com-box-4-1869632').setTargeting('bv','3').setCollapseEmptyDiv(false).setTargeting('br1','240').setTargeting('br2','120').setTargeting('ezoic','1').setTargeting('deal1',[20,21,22,23,24,25,26]);ezslot_4.set('adsense_background_color','FFFFFF').set('adsense_border_color','FFFFFF').set('adsense_channel_ids','3527870687').set('adsense_link_color','0000FF').set('adsense_text_color','000000').set('adsense_url_color','828282');ezrpos[4]="4";ezslot_5 = googletag.defineSlot('/1254144/programcreek_com-banner-1',[728,90],'div-gpt-ad-programcreek_com-banner-1-0').addService(googletag.pubads()).setTargeting('iid19','1863329').setTargeting('t','134').setTargeting('d','55920').setTargeting('t1','134').setTargeting('pvc','0').setTargeting('ap','1116').setTargeting('sap','1116').setTargeting('a','|5|').setTargeting('as','revenue').setTargeting('plat','1').setTargeting('bra','mod25').setTargeting('ic','1').setTargeting('at','mbf').setTargeting('adr','399').setTargeting('reft','tf').setTargeting('refs','120').setTargeting('ga','2497208').setTargeting('gala','').setTargeting('rid','99998').setTargeting('pt','5').setTargeting('al','1030').setTargeting('compid','0').setTargeting('tap','programcreek_com-banner-1-1863329').setTargeting('bv','3').setCollapseEmptyDiv(false).setTargeting('br1','350').setTargeting('br2','180').setTargeting('ezoic','1').setTargeting('deal1',[21,22,23,24,25,26]);ezslot_5.set('adsense_background_color','FFFFFF').set('adsense_border_color','FFFFFF').set('adsense_channel_ids','3527870687').set('adsense_link_color','20929A').set('adsense_text_color','000000').set('adsense_url_color','F0F0F0');ezrpos[5]="5";}else{window.ezHideLocations=[];ezslot_0 = googletag.defineSlot('/1254144/programcreek_com-box-1',[300,600],'div-gpt-ad-programcreek_com-box-1-0').addService(googletag.pubads()).setTargeting('iid19','1834232').setTargeting('t','134').setTargeting('d','55920').setTargeting('t1','134').setTargeting('pvc','0').setTargeting('ap','1112').setTargeting('sap','1112').setTargeting('a','|251|').setTargeting('as','revenue').setTargeting('plat','1').setTargeting('bra','mod25').setTargeting('ic','1').setTargeting('at','mbf').setTargeting('adr','399').setTargeting('reft','tf').setTargeting('refs','30').setTargeting('ga','2497208').setTargeting('gala','').setTargeting('rid','99998').setTargeting('pt','1').setTargeting('al','1000').setTargeting('compid','0').setTargeting('tap','programcreek_com-box-1-1834232').setTargeting('bv','21').setTargeting('acptad','1').setCollapseEmptyDiv(false).setTargeting('br1','350').setTargeting('br2','180').setTargeting('ezoic','1').setTargeting('stl','30').setTargeting('deal1',[21,22,23,24,25,26]);ezslot_0.set('adsense_background_color','FFFFFF').set('adsense_border_color','FFFFFF').set('adsense_channel_ids','3527870687').set('adsense_link_color','0C9C11').set('adsense_text_color','000000').set('adsense_url_color','0C9C11');ezrpos[0]="0";window.ezHideLocations.push('div-gpt-ad-programcreek_com-medrectangle-3-0');window.ezHideLocations.push('div-gpt-ad-programcreek_com-large-billboard-2-0');window.ezHideLocations.push('div-gpt-ad-programcreek_com-medrectangle-4-0');window.ezHideLocations.push('div-gpt-ad-programcreek_com-box-4-0');window.ezHideLocations.push('div-gpt-ad-programcreek_com-banner-1-0');}googletag.pubads().addEventListener('slotRenderEnded', function(event) { __ez.queue.addFunc("ezbanger", "ezbanger", event, false, ['banger.js'], true, true, false, true); });googletag.pubads().addEventListener('impressionViewable', function(event) { __ez.queue.addFunc("ezvb", "ezvb", event, false, ['banger.js'], true, true, false, true); });googletag.pubads().addEventListener('slotVisibilityChanged', function(event) { __ez.queue.addFunc("ezvbc", "ezvbc", event, false, ['banger.js'], true, true, false, true); });googletag.enableServices();});if(typeof window.isEZABL == 'undefined' || window.isEZABL != true) {ezslots.push("ezslot_0");ezslots.push("ezslot_1");ezslots.push("ezslot_2");ezslots.push("ezslot_3");ezslots.push("ezslot_4");ezslots.push("ezslot_5");}else{ezslots.push("ezslot_0");}</script>
+<script>(function(){function a(g,h,i){var j=new Date;j.setTime(j.getTime()+1e3*(60*(60*(24*i))));var k="expires="+j.toUTCString(),l=g+"="+h+";"+k+";path=/;";"undefined"!=typeof ezdomain&&(l+="domain="+ezdomain),document.cookie=l}var b=window.addEventListener?"addEventListener":"attachEvent",c=window[b],f="attachEvent"==b?"onmessage":"message";c(f,function(g){"undefined"!=typeof g.data.ezstatus&&(__ez.bit.AddAndFire(_ezaq.page_view_id,[new __ezDotData("dg",g.data.ezstatus)]),a("ezdg",g.data.ezstatus,730))})})();</script>
+<script type="text/javascript" data-cfasync="false">var _ezaq = {"ad_cache_level":1,"ad_location_ids":"0,21,34,22,3,30","adx_ad_count":6,"bidder_version":3,"city":"Pune","country":"IN","days_since_last_visit":-1,"display_ad_count":6,"domain_id":55920,"ds_adsize_opt_id":-1,"engaged_time_visit":0,"ezcache_level":0,"forensiq_score":-1,"form_factor_id":1,"framework_id":1,"has_bad_words":0,"iab_category":"","is_from_recommended_pages":false,"is_return_visitor":false,"last_page_load":"","last_pageview_id":"","lt_cache_level":0,"max_ads":6,"metro_code":0,"page_ad_positions":"1112,1113,1116,1132,1136,1137","page_view_count":0,"page_view_id":"7e86a93d-1438-4806-6c53-f422600e3c68","pv_event_count":0,"response_time_orig":941,"serverid":"13.229.217.76:17618","sub_page_ad_positions":"1112,1113,1116,1132,1136,1137","t_epoch":1526440430,"template_id":134,"time_on_site_visit":0,"url":"https://www.programcreek.com/2011/12/monitors-java-synchronization-mechanism/","user_id":149497939,"word_count":704};var _ezim_d = {"programcreek_com-banner-1":{"adx_ad_count":6,"full_id":"programcreek_com-banner-1/2018-05-15/1863329","height":"90","position_id":1116,"sub_position_id":1116,"width":"728"},"programcreek_com-box-1":{"adx_ad_count":6,"full_id":"programcreek_com-box-1/2018-05-15/1834232","height":"600","position_id":1112,"sub_position_id":1112,"width":"300"},"programcreek_com-box-4":{"adx_ad_count":6,"full_id":"programcreek_com-box-4/2018-05-15/1869632","height":"400","position_id":1132,"sub_position_id":1132,"width":"580"},"programcreek_com-large-billboard-2":{"adx_ad_count":6,"full_id":"programcreek_com-large-billboard-2/2018-05-15/1875032","height":"600","position_id":1113,"sub_position_id":1113,"width":"300"},"programcreek_com-medrectangle-3":{"adx_ad_count":6,"full_id":"programcreek_com-medrectangle-3/2018-05-15/1908781","height":"280","position_id":1136,"sub_position_id":1136,"width":"336"},"programcreek_com-medrectangle-4":{"adx_ad_count":6,"full_id":"programcreek_com-medrectangle-4/2018-05-15/1894231","height":"400","position_id":1137,"sub_position_id":1137,"width":"580"}};var _ezat = {"domain_id":55920,"form_factor_id":1,"framework_id":1,"pageview_date":"2018-05-15","pageview_id":"7e86a93d-1438-4806-6c53-f422600e3c68","template_id":134,"url":"https://www.programcreek.com/2011/12/monitors-java-synchronization-mechanism/","visit_uuid":"7e96dcb6-1518-4d2d-7ecd-73b633de4f6c"};</script><script data-pagespeed-no-defer="" data-cfasync="false" type="text/javascript">__ez.queue.addFile('rochester.js', '/detroitchicago/rochester.js?cb=173-0&v=8', false, [], true, false, true, true);</script><script src="./Monitors – The Basic Idea of Java Synchronization_files/rochester.js.download" async=""></script><script data-pagespeed-no-defer="" data-cfasync="false" type="text/javascript">__ez.queue.addFile('banger.js', '/porpoiseant/banger.js?cb=173-0&bv=2&v=33&PageSpeed=off', true, [], true, false, false, true);</script><script src="./Monitors – The Basic Idea of Java Synchronization_files/banger.js.download" async=""></script><script data-pagespeed-no-defer="" data-cfasync="false">
+function create_ezolpl() {
+    var d = new Date();
+    d.setTime(d.getTime() + (365*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = "ezux_lpl_55920=" + new Date().getTime() + "|7e86a93d-1438-4806-6c53-f422600e3c68; " + expires;
+}
+function attach_ezolpl() {
+    if(window.attachEvent) {
+        window.attachEvent('onload', create_ezolpl);
+    } else {
+        if(window.onload) {
+            var curronload = window.onload;
+            var newonload = function(evt) {
+                curronload(evt);
+                create_ezolpl();
+            };
+            window.onload = newonload;
+        } else {
+            window.onload = create_ezolpl;
+        }
+    }
+}
+attach_ezolpl();
+</script>
+<meta name="distribution" content="global">
+<meta name="robots" content="index, follow">
+<meta name="language" content="en, sv">
+<title>Monitors – The Basic Idea of Java Synchronization</title>
+<meta name="distribution" content="global">
+<meta name="robots" content="follow, all">
+<meta name="language" content="en, sv">
+<meta name="generator" content="WordPress 4.8.6">
+<meta name="yandex-verification" content="5d5d4e29a160b89b">
+
+<meta name="verify-v1" content="eku39xbVyAqZRVnfCQB7rGSk7S567b6gw5ZZxV6HZrc=">
+<meta name="msvalidate.01" content="C80190E357C320626147430BA5BA9A69">
+<meta name="google-site-verification" content="qUNffY7hZLX1Gvj4EiuBShmtW33Nr8XaEtoxjeDvOpI">
+<meta name="msvalidate.01" content="C6D2CC4CE9EDF63204585F013CB34CC9">
+
+<link rel="shortcut icon" href="https://www.programcreek.com/wp-content/themes/light/images/icon.ico">
+<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="https://www.programcreek.com/feed/">
+<link rel="alternate" type="text/xml" title="RSS .92" href="https://www.programcreek.com/feed/rss/">
+<link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="https://www.programcreek.com/feed/atom/">
+<link rel="pingback" href="https://www.programcreek.com/xmlrpc.php">
+
+
+<style type="text/css" media="screen">
+		<!-- @import url( https://www.programcreek.com/wp-content/themes/light/style.css ); -->
+		</style>
+
+<meta name="description" content="If you took operating system course in college, you might remember that monitor is an important concept of synchronization in operating systems. It is also used">
+<meta name="keywords" content="java monitor,java synchronization mechanism">
+<link rel="canonical" href="https://www.programcreek.com/2011/12/monitors-java-synchronization-mechanism/">
+
+<link rel="dns-prefetch" href="https://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="Program Creek » Monitors – The Basic Idea of Java Synchronization Comments Feed" href="https://www.programcreek.com/2011/12/monitors-java-synchronization-mechanism/feed/">
+<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.programcreek.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.8.6"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,56826,8203,55356,56819),0,0),c=j.toDataURL(),b!==c&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55358,56794,8205,9794,65039),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55358,56794,8203,9794,65039),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><link rel="preload" href="https://adservice.google.co.in/adsid/integrator.js?domain=www.programcreek.com" as="script"><script type="text/javascript" src="https://adservice.google.co.in/adsid/integrator.js?domain=www.programcreek.com"></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.programcreek.com" as="script"><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.programcreek.com"></script><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_205.js?v=206" async=""></script><script src="./Monitors – The Basic Idea of Java Synchronization_files/wp-emoji-release.min.js.download" type="text/javascript" defer=""></script>
+<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="yarppWidgetCss-css" href="./Monitors – The Basic Idea of Java Synchronization_files/widget.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-syntax-css-css" href="./Monitors – The Basic Idea of Java Synchronization_files/wp-syntax.css" type="text/css" media="all">
+<script type="text/javascript" src="./Monitors – The Basic Idea of Java Synchronization_files/jquery.js.download"></script>
+<script type="text/javascript" src="./Monitors – The Basic Idea of Java Synchronization_files/jquery-migrate.min.js.download"></script>
+<link rel="https://api.w.org/" href="https://www.programcreek.com/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.programcreek.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.programcreek.com/wp-includes/wlwmanifest.xml">
+<link rel="prev" title="Use JDT ASTParser to Parse Single .java files" href="https://www.programcreek.com/2011/11/use-jdt-astparser-to-parse-java-file/">
+<link rel="next" title="Network Hierarchy Diagram" href="https://www.programcreek.com/2011/12/network-hierarchy-diagram/">
+<meta name="generator" content="WordPress 4.8.6">
+<link rel="shortlink" href="https://www.programcreek.com/?p=5193">
+<link rel="alternate" type="application/json+oembed" href="https://www.programcreek.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.programcreek.com%2F2011%2F12%2Fmonitors-java-synchronization-mechanism%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://www.programcreek.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.programcreek.com%2F2011%2F12%2Fmonitors-java-synchronization-mechanism%2F&amp;format=xml">
+<script type="text/javascript" src="./Monitors – The Basic Idea of Java Synchronization_files/si_captcha.js.download"></script>
+
+<style type="text/css">
+.si_captcha_small { width:175px; height:45px; padding-top:10px; padding-bottom:10px; }
+.si_captcha_large { width:250px; height:60px; padding-top:10px; padding-bottom:10px; }
+img#si_image_com { border-style:none; margin:0; padding-right:5px; float:left; }
+img#si_image_reg { border-style:none; margin:0; padding-right:5px; float:left; }
+img#si_image_log { border-style:none; margin:0; padding-right:5px; float:left; }
+img#si_image_side_login { border-style:none; margin:0; padding-right:5px; float:left; }
+img#si_image_checkout { border-style:none; margin:0; padding-right:5px; float:left; }
+img#si_image_jetpack { border-style:none; margin:0; padding-right:5px; float:left; }
+img#si_image_bbpress_topic { border-style:none; margin:0; padding-right:5px; float:left; }
+.si_captcha_refresh { border-style:none; margin:0; vertical-align:bottom; }
+div#si_captcha_input { display:block; padding-top:15px; padding-bottom:5px; }
+label#si_captcha_code_label { margin:0; }
+input#si_captcha_code_input { width:65px; }
+p#si_captcha_code_p { clear: left; padding-top:10px; }
+.si-captcha-jetpack-error { color:#DC3232; }
+</style>
+
+
+
+<style>.ezoic-ad.box-1 { display:block !important;float:none;margin-bottom:5px !important;margin-left:0px !important;margin-right:0px !important;margin-top:5px !important;min-height:600px;min-width:300px;text-align:center !important; }
+.ezoic-ad.medrectangle-3 { display:block !important;float:none;margin-bottom:10px !important;margin-left:0px !important;margin-right:0px !important;margin-top:10px !important;min-height:280px;min-width:336px;text-align:center !important; }
+.ezoic-ad.large-billboard-2 { display:inline-block;float:none;margin-bottom:5px !important;margin-left:0px !important;margin-right:0px !important;margin-top:5px !important;min-height:600px;min-width:300px; }
+.ezoic-ad.medrectangle-4 { display:block !important;float:none;margin-bottom:10px !important;margin-left:0px !important;margin-right:0px !important;margin-top:10px !important;min-height:400px;min-width:580px;text-align:center !important; }
+.ezoic-ad.box-4 { display:block !important;float:none !important;margin-bottom:10px !important;margin-left:0px !important;margin-right:0px !important;margin-top:10px !important;min-height:400px;min-width:580px;text-align:center !important; }
+.ezoic-ad.banner-1 { display:block !important;float:none !important;margin-bottom:10px !important;margin-left:0px !important;margin-right:0px !important;margin-top:10px !important;min-height:90px;min-width:728px;text-align:center !important; }
+.ezoic-ad{display:inline-block;}
+.adtester-container-114{display:none !important}
+.ezoic-floating-bottom { display: none!important; }</style>
+<script data-cfasync="false" type="text/javascript">window.google_analytics_uacct = "UA-97843467-5";</script>
+<script data-cfasync="false" type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['e._setAccount', 'UA-97843467-5']);
+_gaq.push(['f._setAccount', 'UA-38339005-1']);
+_gaq.push(['e._setDomainName', 'programcreek.com']);
+_gaq.push(['f._setDomainName', 'programcreek.com']);
+_gaq.push(['e._setCustomVar',1,'template','pub_site',3]);
+_gaq.push(['e._setCustomVar',2,'t','134',3]);
+_gaq.push(['e._setCustomVar',3,'rid','0',2]);
+_gaq.push(['e._setCustomVar',4,'bra','mod25',3]);
+_gaq.push(['e._setAllowAnchor',true]);
+_gaq.push(['e._setSiteSpeedSampleRate', 10]);
+_gaq.push(['f._setCustomVar',1,'template','pub_site',3]);
+_gaq.push(['f._setCustomVar',2,'domain','programcreek.com',3]);
+_gaq.push(['f._setSiteSpeedSampleRate', 20]);
+_gaq.push(['e._trackPageview']);
+_gaq.push(['f._trackPageview']);
+
+
+(function() {
+ var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+<script type="text/javascript">var ezouid = "149497939";</script><!--<base href="https://www.programcreek.com/2011/12/monitors-java-synchronization-mechanism/">--><base href="."><script type="text/javascript">
+var ezoTemplate = 'pub_site';
+if(typeof ezouid == 'undefined')
+{
+    var ezouid = 'none';
+}
+var ezoFormfactor = '1';
+var ezo_elements_to_check = Array();
+</script>
+<script type="text/javascript">
+var soc_app_id = '0';
+var did = 55920;
+var ezdomain = 'programcreek.com';
+var ezoicSearchable = 1;
+</script>
+
+
+<script data-pagespeed-no-defer="" data-cfasync="false" type="text/javascript" style="display:none">
+__ez.queue.addFile('__ezf_ezosuigeneris', '//g.ezoic.net/ezosuigeneris.js', true, [], true, false, false, false);
+var __ez_ezosuigenerisEvt = function() { __ez.bit.AddAndFire(_ezaq['page_view_id'], [(new __ezDotData('universal_user_id', ezosuigeneris))]); };
+__ez.queue.addFunc('__ez_ezosuigenerisEvt', '__ez_ezosuigenerisEvt', null, false, ['__ezf_ezosuigeneris'], false, false, false, false);</script><script src="https://g.ezoic.net/ezosuigeneris.js" async=""></script><script data-pagespeed-no-defer="" data-cfasync="false" type="text/javascript" style="display:none">__ez.queue.addFile('__ezf_ezosuigenerisc', '//g.ezoic.net/ezosuigenerisc.js?nogen=1', true, [], true, false, false, false);</script><script src="https://g.ezoic.net/ezosuigenerisc.js?nogen=1" async=""></script><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-23/html/container.html"><script type="text/javascript" async="" src="./Monitors – The Basic Idea of Java Synchronization_files/embed.js.download"></script><script async="" type="text/javascript" src="./Monitors – The Basic Idea of Java Synchronization_files/count.js.download"></script><script src="./Monitors – The Basic Idea of Java Synchronization_files/edmonton.webp" async=""></script><script src="./Monitors – The Basic Idea of Java Synchronization_files/jellyfish.webp" async=""></script><link rel="preload" as="style" href="https://c.disquscdn.com/next/embed/styles/lounge.188f59a1df04c219bf32da7f76545092.css"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/common.bundle.037f55c32651d22255e90738c195e946.js"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/lounge.bundle.2fd6d206c06cd51584499fe8219aa635.js"><link rel="preload" as="script" href="https://disqus.com/next/config.js"><script src="./Monitors – The Basic Idea of Java Synchronization_files/alfalfa.4a5fcca1fe50a757044dfd331b660625.js.download" async="" charset="UTF-8"></script></head>
+<body id="home">
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7639629-4']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<div id="menu">
+<div class="wrappermiddlewide">
+<div class="menu-prim-container"><ul id="menu-prim" class="menu"><li id="menu-item-7915" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-7915"><a href="https://www.programcreek.com/">Home</a></li>
+<li id="menu-item-11059" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11059"><a href="https://www.programcreek.com/simple-java/">Simple Java</a></li>
+<li id="menu-item-11524" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11524"><a href="https://www.programcreek.com/2012/11/top-10-algorithms-for-coding-interview/">Coding Interview</a></li>
+<li id="menu-item-13385" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13385"><a href="https://www.programcreek.com/machine-learning-and-deep-learning/">Machine Learning</a></li>
+<li id="menu-item-7237" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7237"><a href="https://www.programcreek.com/java-api-examples/index.php">Java Examples</a></li>
+<li id="menu-item-14897" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14897"><a href="https://www.programcreek.com/python/">Python Examples</a></li>
+<li id="menu-item-16163" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16163"><a href="https://www.programcreek.com/scala/">Scala Examples</a></li>
+<li id="menu-item-10226" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10226"><a href="https://www.programcreek.com/about/">Contact</a></li>
+</ul></div> </div>
+<div class="clear"> </div>
+</div>
+
+<div id="wrap">
+<div class="wrappermiddle">
+<div id="content">
+<div class="entry-single">
+<h1 class="entrytitle" id="post-5193"> <a href="https://www.programcreek.com/2011/12/monitors-java-synchronization-mechanism/" rel="bookmark">
+Monitors – The Basic Idea of Java Synchronization </a>
+</h1>
+<div class="entrymeta">
+&nbsp;
+</div>
+
+<div class="entrybody">
+<p>If you took operating system course in college, you might remember that monitor is an important concept of synchronization in operating systems. It is also used in Java synchronization. This post uses an analogy to explain the basic idea of "monitor".</p>
+<p><strong>1. What is a Monitor?</strong><span id="ezoic-pub-ad-placeholder-136" class="ezoic-adpicker-ad"></span><span style="float: none; min-height: 280px; min-width: 336px; display: none; margin: 10px 0px !important; text-align: center !important;" class="ezoic-ad medrectangle-3 adtester-container adtester-container-136" data-ez-name="programcreek_com-medrectangle-3"><span id="div-gpt-ad-programcreek_com-medrectangle-3-0" ezaw="336" ezah="280" style="position:relative;z-index:0;display:none;" class="ezoic-ad"><div id="google_ads_iframe_/1254144/programcreek_com-medrectangle-3_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1254144/programcreek_com-medrectangle-3_0" title="3rd party ad content" name="google_ads_iframe_/1254144/programcreek_com-medrectangle-3_0" width="336" height="280" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" src="./Monitors – The Basic Idea of Java Synchronization_files/saved_resource.html"></iframe></div></span></span><script>var ezzns21 = {1.70:504842,1.80:504844,3.50:504859,0.05:504809,0.20:504815,1.10:504833,1.20:504835,1.60:504841,4.00:504861,0.50:504826,4.50:504863,0.25:504817,0.45:504824,0.70:504828,1.00:504831,1.50:504840,0.35:504821,1.30:504836,2.60:504853,3.00:504857,0.80:504829,0.90:504830,1.40:504838,2.00:504848,5.00:504865,0.15:504814,0.40:504823,1.90:504846,0.30:504819,2.40:504851,2.80:504855,0.10:504811,0.60:504827,2.20:504850,};</script><script type="text/javascript" src="./Monitors – The Basic Idea of Java Synchronization_files/publishertag.js.download"></script>
+</p><div class="ezflad-47" style="display:inline-block" adunitname="programcreek_com-medrectangle-3" id="crt-21">
+<script type="text/javascript">
+var ezoflbf_2_21 = function() { __ez.queue.addFunc('ReloadFromP_1136', 'IL11ILILIIlLLLILILLLLIILLLIIL11111LLILiiLIliLlILlLiiLLIiILL.ReloadFromP', 1136, false, ['banger.js'], false, false, false, true); };
+var ezoflbf_21 = function() { eval(ez_write_tag([[336,280],'programcreek_com-medrectangle-3','ezslot_1']));
+		};</script><script type="text/javascript">Criteo.DisplayAd({
+    zoneid: 504844, containerid: 'crt-21', passbackcode: ezoflbf_21
+});
+</script></div>
+<script type="text/javascript">
+	var __ezfl_sss_1136 = function() {
+		setTimeout(function(){
+			var ezflaun = IL11ILILIIlLLLILILLLLIILLLIIL11111LLILiiLIliLlILlLiiLLIiILL.GetNameFromPositionId(1136);
+			if (typeof ezflaun != 'undefined' && ezflaun.length > 0) {
+				if (typeof ez_ad_units != undefined) {
+					for (i = 0; i < ez_ad_units.length; i++) {
+						if (ezflaun.indexOf(ez_ad_units[i][1]) >= 0) {
+							return false;
+						}
+					}
+				}
+				IL11ILILIIlLLLILILLLLIILLLIIL11111LLILiiLIliLlILlLiiLLIiILL.StoreStatSource(ezflaun, 47, 1.80);
+				IL11ILILIIlLLLILILLLLIILLLIIL11111LLILiiLIliLlILlLiiLLIiILL.RemoveSlotById(ezflaun);
+			}
+		}, 6000);
+	};
+	__ez.queue.addFunc('__ezfl_sss_1136', '__ezfl_sss_1136', null, false, ['banger.js'], false, false, false, true);
+</script><p></p>
+<p>A monitor can be considered as a building which contains a special room. The special room can be occupied by only one customer(thread) at a time. The room usually contains some data and code. </p>
+<p><img src="./Monitors – The Basic Idea of Java Synchronization_files/Java-Monitor.jpg" alt="" title="Java-Monitor" width="324" height="216" class="alignleft size-full wp-image-5197" srcset="https://www.programcreek.com/wp-content/uploads/2011/12/Java-Monitor.jpg 324w, https://www.programcreek.com/wp-content/uploads/2011/12/Java-Monitor-300x200.jpg 300w" sizes="(max-width: 324px) 100vw, 324px"><span id="ezoic-pub-ad-placeholder-137" class="ezoic-adpicker-ad"></span><span style="float: none; min-height: 400px; min-width: 580px; display: none; margin: 10px 0px !important; text-align: center !important;" class="ezoic-ad medrectangle-4 adtester-container adtester-container-137" data-ez-name="programcreek_com-medrectangle-4"><span id="div-gpt-ad-programcreek_com-medrectangle-4-0" ezaw="580" ezah="400" style="position:relative;z-index:0;display:none;" class="ezoic-ad"><div id="google_ads_iframe_/1254144/programcreek_com-medrectangle-4_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1254144/programcreek_com-medrectangle-4_0" title="3rd party ad content" name="google_ads_iframe_/1254144/programcreek_com-medrectangle-4_0" width="580" height="400" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" src="./Monitors – The Basic Idea of Java Synchronization_files/saved_resource(2).html"></iframe></div></span></span><script>var ezzns22 = {};</script><script type="text/javascript" src="./Monitors – The Basic Idea of Java Synchronization_files/publishertag.js.download"></script>
+</p><div class="ezflad-47" style="display:inline-block" adunitname="programcreek_com-medrectangle-4" id="crt-22">
+<script type="text/javascript">
+var ezoflbf_2_22 = function() { __ez.queue.addFunc('ReloadFromP_1137', 'IL11ILILIIlLLLILILLLLIILLLIIL11111LLILiiLIliLlILlLiiLLIiILL.ReloadFromP', 1137, false, ['banger.js'], false, false, false, true); };
+var ezoflbf_22 = function() { eval(ez_write_tag([[580,400],'programcreek_com-medrectangle-4','ezslot_3']));
+		};</script><script type="text/javascript">ezoflbf_22();
+</script></div>
+<script type="text/javascript">
+	var __ezfl_sss_1137 = function() {
+		setTimeout(function(){
+			var ezflaun = IL11ILILIIlLLLILILLLLIILLLIIL11111LLILiiLIliLlILlLiiLLIiILL.GetNameFromPositionId(1137);
+			if (typeof ezflaun != 'undefined' && ezflaun.length > 0) {
+				if (typeof ez_ad_units != undefined) {
+					for (i = 0; i < ez_ad_units.length; i++) {
+						if (ezflaun.indexOf(ez_ad_units[i][1]) >= 0) {
+							return false;
+						}
+					}
+				}
+				IL11ILILIIlLLLILILLLLIILLLIIL11111LLILiiLIliLlILlLiiLLIiILL.StoreStatSource(ezflaun, 47, 6.00);
+				IL11ILILIIlLLLILILLLLIILLLIIL11111LLILiiLIliLlILlLiiLLIiILL.RemoveSlotById(ezflaun);
+			}
+		}, 6000);
+	};
+	__ez.queue.addFunc('__ezfl_sss_1137', '__ezfl_sss_1137', null, false, ['banger.js'], false, false, false, true);
+</script><p></p>
+<p>If a customer wants to occupy the special room, he has to enter the Hallway(Entry Set) to wait first. Scheduler will pick one based on some criteria(e.g. FIFO). If he is suspended for some reason, he will be sent to the wait room, and be scheduled to reenter the special room later. As it is shown in the diagram above, there are 3 rooms in this building. </p>
+
+<div class="quads-location quads-ad1" id="quads-ad1" style="float:none;margin:0px;">
+
+<span id="ezoic-pub-ad-placeholder-132"></span><span style="min-height: 400px; min-width: 580px; display: none; float: none !important; margin: 10px 0px !important; text-align: center !important;" class="ezoic-ad box-4 adtester-container adtester-container-132" data-ez-name="programcreek_com-box-4"><span id="div-gpt-ad-programcreek_com-box-4-0" ezaw="580" ezah="400" style="position:relative;z-index:0;display:none;" class="ezoic-ad"><div id="google_ads_iframe_/1254144/programcreek_com-box-4_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1254144/programcreek_com-box-4_0" title="3rd party ad content" name="google_ads_iframe_/1254144/programcreek_com-box-4_0" width="580" height="400" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" src="./Monitors – The Basic Idea of Java Synchronization_files/saved_resource(3).html"></iframe></div></span></span><script>var ezzns3 = {};</script><script type="text/javascript" src="./Monitors – The Basic Idea of Java Synchronization_files/publishertag.js.download"></script>
+<div class="ezflad-47" style="display:inline-block" adunitname="programcreek_com-box-4" id="crt-3">
+<script type="text/javascript">
+var ezoflbf_2_3 = function() { __ez.queue.addFunc('ReloadFromP_1132', 'IL11ILILIIlLLLILILLLLIILLLIIL11111LLILiiLIliLlILlLiiLLIiILL.ReloadFromP', 1132, false, ['banger.js'], false, false, false, true); };
+var ezoflbf_3 = function() { eval(ez_write_tag([[580,400],'programcreek_com-box-4','ezslot_4']));
+		};</script><script type="text/javascript">ezoflbf_3();
+</script></div>
+<script type="text/javascript">
+	var __ezfl_sss_1132 = function() {
+		setTimeout(function(){
+			var ezflaun = IL11ILILIIlLLLILILLLLIILLLIIL11111LLILiiLIliLlILlLiiLLIiILL.GetNameFromPositionId(1132);
+			if (typeof ezflaun != 'undefined' && ezflaun.length > 0) {
+				if (typeof ez_ad_units != undefined) {
+					for (i = 0; i < ez_ad_units.length; i++) {
+						if (ezflaun.indexOf(ez_ad_units[i][1]) >= 0) {
+							return false;
+						}
+					}
+				}
+				IL11ILILIIlLLLILILLLLIILLLIIL11111LLILiiLIliLlILlLiiLLIiILL.StoreStatSource(ezflaun, 47, 1.80);
+				IL11ILILIIlLLLILILLLLIILLLIIL11111LLILiiLIliLlILlLiiLLIiILL.RemoveSlotById(ezflaun);
+			}
+		}, 6000);
+	};
+	__ez.queue.addFunc('__ezfl_sss_1132', '__ezfl_sss_1132', null, false, ['banger.js'], false, false, false, true);
+</script>
+
+</div>
+<p><img src="./Monitors – The Basic Idea of Java Synchronization_files/java-monitor-associate-with-object.jpg" alt="" title="java-monitor-associate-with-object" width="313" height="331" class="alignleft size-full wp-image-5198" srcset="https://www.programcreek.com/wp-content/uploads/2011/12/java-monitor-associate-with-object.jpg 313w, https://www.programcreek.com/wp-content/uploads/2011/12/java-monitor-associate-with-object-283x300.jpg 283w" sizes="(max-width: 313px) 100vw, 313px"></p>
+<p>In brief, a monitor is a facility which monitors the threads' access to the special room. It ensures that only one thread can access the protected data or code. </p>
+<p><strong>2. How is it implemented in Java?</strong></p>
+<p>In the Java virtual machine, every object and class is logically associated with a monitor. To implement the mutual exclusion capability of monitors, a lock (sometimes called a mutex) is associated with each object and class. This is called a semaphore in operating systems books, mutex is a binary semaphore. </p>
+<p>If one thread owns a lock on some data, then no others can obtain that lock until the thread that owns the lock releases it. It would be not convenient if we need to write a semaphore all the time when we do multi-threading programming. Luckily, we don't need to since JVM does that for us automatically. </p>
+<p>To claim a monitor region which means data not accessible by more than one thread, Java provide synchronized statements and synchronized methods. Once the code is embedded with synchronized keyword, it is a monitor region. The locks are implemented in the background automatically by JVM. </p>
+<p><strong>3. In Java synchronization code, which part is monitor?</strong></p>
+<p>We know that each object/class is associated with a Monitor. I think it is good to say that each object has a monitor, since each object could have its own critical section, and capable of monitoring the thread sequence. </p>
+<p>To enable collaboration of different threads, Java provide wait() and notify() to suspend a thread and to wake up another thread that are waiting on the object respectively. In addition, there are 3 other versions:</p>
+<div class="wp_syntax" style="position: relative; width: auto;"><table><tbody><tr><td class="code"><pre class="java" style="font-family:monospace;">wait<span style="color: #009900;">(</span><span style="color: #000066; font-weight: bold;">long</span> timeout, <span style="color: #000066; font-weight: bold;">int</span> nanos<span style="color: #009900;">)</span>
+wait<span style="color: #009900;">(</span><span style="color: #000066; font-weight: bold;">long</span> timeout<span style="color: #009900;">)</span> notified by other threads or notified by timeout. 
+<span style="color: #006633;">notify</span><span style="color: #009900;">(</span>all<span style="color: #009900;">)</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">wait(long timeout, int nanos)
+wait(long timeout) notified by other threads or notified by timeout.
+notify(all)</p></div>
+<p>Those methods can only be invoked within a synchronized statement or synchronized method. The reason is that if a method does not require mutual exclusion, there is no need to monitor or collaborate between threads, every thread can access that method freely. </p>
+<p><a href="https://www.programcreek.com/2009/02/notify-and-wait-example/" title="Java Thread: notify() and wait() examples">Here </a>are some synchronization code examples. </p>
+<p>Reference:<br>
+1. <a href="http://docs.oracle.com/javase/1.3/docs/api/java/lang/Object.html">Java Doc for Object</a><br>
+2. <a href="http://www.artima.com/insidejvm/ed2/threadsynch.html">Thread synchronization</a><br>
+3. <a href="http://docs.oracle.com/javase/tutorial/essential/concurrency/locksync.html">Locks and Synchronization</a><br>
+4. <a href="https://stackoverflow.com/questions/3807715/java-notify-vs-notifyall-possible-deadlock">notify() vs notifyAll()</a></p>
+<div class="yarpp-related">
+<h3>Related posts:</h3><ol>
+<li><a href="https://www.programcreek.com/2009/02/notify-and-wait-example/" rel="bookmark" title="Java Thread: notify() and wait() examples">Java Thread: notify() and wait() examples </a></li>
+<li><a href="https://www.programcreek.com/2014/02/how-to-make-a-method-thread-safe-in-java/" rel="bookmark" title="How to make a method thread-safe in Java?">How to make a method thread-safe in Java? </a></li>
+<li><a href="https://www.programcreek.com/2012/08/interview-question-use-java-thread-to-do-math-calculation/" rel="bookmark" title="Interview Question – Use Java Thread to Do Math Calculation">Interview Question – Use Java Thread to Do Math Calculation </a></li>
+<li><a href="https://www.programcreek.com/2012/01/eclipse-rcp-tutorial-how-to-add-a-progress-bar/" rel="bookmark" title="Eclipse RCP Tutorial: How to Add a Progress Bar">Eclipse RCP Tutorial: How to Add a Progress Bar </a></li>
+</ol>
+</div>
+
+<span id="ezoic-pub-ad-placeholder-116"></span><span style="min-height: 90px; min-width: 728px; display: block; float: none !important; margin: 10px 0px !important; text-align: center !important;" class="ezoic-ad banner-1 adtester-container adtester-container-116" data-ez-name="programcreek_com-banner-1"><span id="div-gpt-ad-programcreek_com-banner-1-0" ezaw="728" ezah="90" style="position:relative;z-index:0;display:inline-block;" class="ezoic-ad"><script data-cfasync="false" type="text/javascript" style="display:none;">eval(ez_write_tag([[728,90],'programcreek_com-banner-1','ezslot_5']));</script><div id="google_ads_iframe_/1254144/programcreek_com-banner-1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1254144/programcreek_com-banner-1_0" title="3rd party ad content" name="google_ads_iframe_/1254144/programcreek_com-banner-1_0" width="728" height="90" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" src="./Monitors – The Basic Idea of Java Synchronization_files/saved_resource(4).html"></iframe></div></span></span>
+
+<div class="sociable"></div>
+</div>
+Category &gt;&gt; <a href="https://www.programcreek.com/category/java-2/java-thread/" rel="category tag">Concurrency</a> &gt;&gt; <a href="https://www.programcreek.com/category/diagram-2/" rel="category tag">Diagram</a> &nbsp;
+<rdf:rdf xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+<rdf:description rdf:about="https://www.programcreek.com/2011/12/monitors-java-synchronization-mechanism/" dc:identifier="https://www.programcreek.com/2011/12/monitors-java-synchronization-mechanism/" dc:title="Monitors – The Basic Idea of Java Synchronization" trackback:ping="https://www.programcreek.com/2011/12/monitors-java-synchronization-mechanism/trackback/">
+</rdf:description></rdf:rdf>
+</div>
+<font color="green">If you want someone to read your code,
+please put the code inside <span style="color:red;">&lt;pre&gt;&lt;code&gt;</span>
+and
+<span style="color:red;">&lt;/code&gt;&lt;/pre&gt;</span>
+tags. For example:</font>
+<br>
+<pre>&lt;pre&gt;&lt;code&gt; 
+String foo = "bar";
+&lt;/code&gt;&lt;/pre&gt;
+</pre>
+<div id="disqus_thread"><iframe id="dsq-app9601" name="dsq-app9601" allowtransparency="true" frameborder="0" scrolling="no" tabindex="0" title="Disqus" width="100%" src="./Monitors – The Basic Idea of Java Synchronization_files/saved_resource(5).html" style="width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 1208px !important;" horizontalscrolling="no" verticalscrolling="no"></iframe></div>
+<p>
+</p>
+</div>
+<div id="sidebar">
+
+<div class="sidebarsep"></div>
+
+
+<span id="ezoic-pub-ad-placeholder-112"></span><span style="float: none; min-height: 600px; min-width: 300px; display: block; margin: 5px 0px !important; text-align: center !important;" class="ezoic-ad box-1 adtester-container adtester-container-112" data-ez-name="programcreek_com-box-1"><span id="div-gpt-ad-programcreek_com-box-1-0" ezaw="300" ezah="600" style="position:relative;z-index:0;display:inline-block;" class="ezoic-ad"><script data-cfasync="false" type="text/javascript" style="display:none;">eval(ez_write_tag([[300,600],'programcreek_com-box-1','ezslot_0']));</script><div id="google_ads_iframe_/1254144/programcreek_com-box-1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1254144/programcreek_com-box-1_0" title="3rd party ad content" name="google_ads_iframe_/1254144/programcreek_com-box-1_0" width="300" height="600" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" src="./Monitors – The Basic Idea of Java Synchronization_files/saved_resource(6).html"></iframe></div></span></span>
+
+
+<span id="ezoic-pub-ad-placeholder-113"></span><span style="display: inline-block; float: none; min-height: 600px; min-width: 300px; margin: 5px 0px !important;" class="ezoic-ad large-billboard-2 adtester-container adtester-container-113" data-ez-name="programcreek_com-large-billboard-2"><span id="div-gpt-ad-programcreek_com-large-billboard-2-0" ezaw="300" ezah="600" style="position:relative;z-index:0;display:inline-block;" class="ezoic-ad"><script data-cfasync="false" type="text/javascript" style="display:none;">eval(ez_write_tag([[300,600],'programcreek_com-large-billboard-2','ezslot_2']));</script><div id="google_ads_iframe_/1254144/programcreek_com-large-billboard-2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1254144/programcreek_com-large-billboard-2_0" title="3rd party ad content" name="google_ads_iframe_/1254144/programcreek_com-large-billboard-2_0" width="300" height="600" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" src="./Monitors – The Basic Idea of Java Synchronization_files/saved_resource(7).html"></iframe></div></span></span>
+
+
+<span id="ezoic-pub-ad-placeholder-114"></span>
+
+
+<span id="ezoic-pub-ad-placeholder-125"></span>
+
+</div></div>
+</div>
+<div id="footer">
+<p> Copyright ©&nbsp;2008 - 2018
+Program Creek
+</p></div>
+<link rel="stylesheet" id="yarppRelatedCss-css" href="./Monitors – The Basic Idea of Java Synchronization_files/related.css" type="text/css" media="all">
+<script type="text/javascript" src="./Monitors – The Basic Idea of Java Synchronization_files/wp-syntax.js.download"></script>
+<script type="text/javascript" src="./Monitors – The Basic Idea of Java Synchronization_files/wp-embed.min.js.download"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var embedVars = {"disqusConfig":{"platform":"wordpress@4.8.6","language":""},"disqusIdentifier":"5193 http:\/\/www.programcreek.com\/?p=5193","disqusShortname":"programcreek-1","disqusTitle":"Monitors \u2013 The Basic Idea of Java Synchronization","disqusUrl":"https:\/\/www.programcreek.com\/2011\/12\/monitors-java-synchronization-mechanism\/","options":{"manualSync":false},"postId":"5193"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Monitors – The Basic Idea of Java Synchronization_files/disqus.js.download"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var countVars = {"disqusShortname":"programcreek-1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Monitors – The Basic Idea of Java Synchronization_files/count.js(1).download"></script>
+
+<script src="./Monitors – The Basic Idea of Java Synchronization_files/jquery-3.2.1.min.js.download"></script>
+
+<script type="text/javascript">
+var timeout    = 500;
+var closetimer = 0;
+var ddmenuitem = 0;
+
+function jsddm_open()
+{  jsddm_canceltimer();
+   jsddm_close();
+   ddmenuitem = $(this).find('ul').css('visibility', 'visible');}
+
+function jsddm_close()
+{  if(ddmenuitem) ddmenuitem.css('visibility', 'hidden');}
+
+function jsddm_timer()
+{  closetimer = window.setTimeout(jsddm_close, timeout);}
+
+function jsddm_canceltimer()
+{  if(closetimer)
+   {  window.clearTimeout(closetimer);
+      closetimer = null;}}
+
+$(document).ready(function()
+{  $('#menu-prim > li').bind('mouseover', jsddm_open)
+   $('#menu-prim > li').bind('mouseout',  jsddm_timer)});
+
+document.onclick = jsddm_close;
+</script>
+<script type="text/javascript" style="display:none;">
+var __ez_dims = (function() {
+	var setCookie = function( name, content, expiry ) {
+		return document.cookie = name+'='+content+((expiry)?';expires='+(new Date(Math.floor(new Date().getTime()+expiry*1000)).toUTCString()):'');
+	};
+	var ffid = 1;
+	var oh = window.screen.height;
+	var ow = window.screen.width;
+	var h = ffid === 1 ? oh : (oh > ow) ? oh : ow;
+	var w = ffid === 1 ? ow : (oh > ow) ? ow : oh;
+	var uh = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+	var uw = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+	setCookie('ezds', encodeURIComponent('ffid='+ffid+',w='+w+',h='+h), (31536e3*7));
+	setCookie('ezohw', encodeURIComponent('w='+uw+',h='+uh), (31536e3*7));
+})();
+</script><script type="text/javascript" style="display:none;" async="">
+__ez.queue.addFile('edmonton.php', '//www.programcreek.com/detroitchicago/edmonton.webp?a=a&cb=173-0&shcb=29', true, [], true, false, false, false);
+__ez.queue.addFile('jellyfish.php', '//www.programcreek.com/porpoiseant/jellyfish.webp?a=a&cb=173-0&shcb=29', false, [], true, false, false, false);
+</script>
+<div id="dmo1" style="display:none">
+<script type="text/javascript"><!--
+		google_ad_client = "ca-pub-6396844742497208";
+		/* dmo */
+		google_ad_slot = "dmo";
+		google_ad_width = 88;
+		google_ad_height = 31;
+		//-->
+	</script>
+<script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+</div>
+<script>var _comscore=_comscore||[];_comscore.push({c1:"2",c2:"20015427"});(function(){var s=document.createElement("script"),el=document.getElementsByTagName("script")[0];s.async=true;s.src=(document.location.protocol=="https:"?"https://sb":"http://b")+".scorecardresearch.com/beacon.js";el.parentNode.insertBefore(s,el)})();</script><noscript><img src="<a class="vglnk" href="https://sb.scorecardresearch.com/p?c1=2&amp;c2=20015427&amp;cv=2.0&amp;cj=1%22/" rel="nofollow"><span>https</span><span>://</span><span>sb</span><span>.</span><span>scorecardresearch</span><span>.</span><span>com</span><span>/</span><span>p</span><span>?</span><span>c1</span><span>=</span><span>2</span><span>&amp;</span><span>c2</span><span>=</span><span>20015427</span><span>&amp;</span><span>cv</span><span>=</span><span>2</span><span>.</span><span>0</span><span>&amp;</span><span>cj</span><span>=</span><span>1</span><span>"/</span></a>></noscript>
+<script type="text/javascript">var _qevents=_qevents||[];(function(){var elem=document.createElement('script');elem.src=(document.location.protocol=="https:"?"https://secure":"http://edge")+".quantserve.com/quant.js";elem.async=true;elem.type="text/javascript";var scpt=document.getElementsByTagName('script')[0];scpt.parentNode.insertBefore(elem,scpt)})();_qevents.push({qacct:"p-31iz6hfFutd16",labels:"Domain.programcreek_com,DomainId.55920"});</script><noscript><div style="display:none;"><img src="//pixel.quantserve.com/pixel/p-31iz6hfFutd16.gif?labels=Domain.programcreek_com,DomainId.55920"border="0"height="1"width="1"alt="Quantcast"/></div></noscript>
+<iframe style="display: none;" src="./Monitors – The Basic Idea of Java Synchronization_files/saved_resource(8).html"></iframe></body></html>

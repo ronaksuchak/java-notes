@@ -1,0 +1,16 @@
+1. Install JDK 1.8 latest update version on your machine.
+It will be installed in c:\program files\java\jdk1.8 type of a folder.
+
+2. From Computer --R Click --Advanced System Settings -- Environment variables - System Variables --
+Edit existing Path variable to add , 1st entry in the path as c:\program files\java\jdk1.8\bin 
+(Note : actual folder name will vary as per actual JDK update version)
+
+3. Refer to this link , for downloading latest Eclipse for Java EE developers. (choose your platform)
+
+https://www.eclipse.org/downloads/packages/release/2020-03/r/eclipse-ide-enterprise-java-developers-includes-incubating-components
+
+4. In Advanced java , will add STS plug-in for spring framework.
+
+
+
+

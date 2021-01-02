@@ -1,0 +1,28 @@
+Overview of Nested classes : Focus on non static nested class(inner class)
+Generics in Java : overview : need of generics . Identify the 
+Collection Framework
+
+
+Can you populate ArrayList from 
+ArrayList
+LinkedList
+Vector
+HashSet
+LinkedHashSet
+TreeSet
+
+
+
+HashMap
+LinkedHashMap
+TreeMap
+
+
+solve
+Objectives in Integer list
+0. Create ArrayList of integers & populate it.
+1. check if element exists in the list.
+2. disp index of 1st occurance of the elem
+3. double values in the list --if elem val > 20
+4. remove elem at the specified index
+5. Sorting : asc order

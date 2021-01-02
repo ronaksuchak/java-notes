@@ -1,0 +1,92 @@
+Today's Topics
+Revision
+Overview of garbage collection
+Constructor chaining
+Passing reference to methods
+Returning reference from methods
+Packages n access specifiers
+Enter IDE
+Arrays
+Array of primitive types
+Array of reference types
+
+Revise 
+What is tight encapsulation ?
+Solve this example.
+Box.java n TestBox.java
+------------------------------
+
+1. Garbage collection
+
+2. More B.L (business logic)
+
+1. Create Cubes (constr chaining)
+eg : User orders a cube
+sop("Enter side of the cube");
+Box cube =new Box(sc.nextDouble());//javac err
+Add overloaded constr to the Box class
+Box(double side)
+{
+// width=depth=height=side;DRY
+   this(side,side,side);//invokes the MATCHING constr of the same class : javac err : def arg less constr is missing!
+}
+
+2. Add a instance method to Box class to test equality of 2 boxes : based upon box dims.
+eg Usage
+b1=new Box(10,20,30);
+b2=new Box(10,20,31);
+TestBox :    b1.testEquals(b2); ---false/true
+Box : 
+//anotherBox=b2
+boolean testEquals(Box anotherBox)//prim type or ref type : yes
+{
+  return this.width == anotherBox.width && .....;
+}
+
+
+3. Add a method to Box class to return a new Box with modified offset dims & test it with the tester.
+
+eg : 1st Box dims 10,20,30
+Suppose User enters offsets as 3,-4,5
+2nd box should have dims 13,16,35
+eg : TestBox
+  Box newBox=b1.createNewBox(3,-4,5);//newBox ---> newly created box from inside of the method.
+Box 
+Box createNewBox(double wOff....)
+{
+  Box anotherBox=new Box(width+woff,...);
+return anotherBox;
+
+}
+
+3. Regarding Packages
+refer to its readme.
+Solve :
+Create a  Rectangle class under "com.cdac.shapes" package.
+
+Add data members --  x,y,widht,height.
+Add a constr to accept all i/ps from user.
+Add a method to return string form of rectangle details
+
+Create a class TestRect to test rectangle --
+under pkg -- "com.tester"
+
+
+Pending!!!!!!!!
+
+
+
+Array of primitive types
+
+Objective -- Accept no of data samples(double) from User
+Create array & display --confirm default values.
+Accept data from User(scanner) & store it in suitable array.
+Display array data from for loop.
+for-each syntax.
+
+
+Array of References
+
+Objective --- Accept from user --- no of boxes to be made.
+Accept box dims from user & display box dims using for-each
+

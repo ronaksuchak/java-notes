@@ -1,0 +1,12 @@
+For installing open JDK , setting path , setting java home variable in Ubuntu
+Refer : https://vitux.com/how-to-setup-java_home-path-in-ubuntu/
+
+
+Linux/Mac classpath setting
+
+Open the terminal window 
+echo ${CLASSPATH}
+export CLASSPATH=.:/home/user/day2/bin ---folder name pointing to top of the pkged hierarchy.
+
+Another  option can be
+java -cp /home/user/day2/bin p1.Test

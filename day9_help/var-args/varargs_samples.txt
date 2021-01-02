@@ -1,0 +1,131 @@
+class VarArgs { 
+ 
+  // vaTest() now uses a vararg. 
+  static void vaTest(int ... v) { 
+    System.out.print("Number of args: " + v.length + 
+                       " Contents: "); 
+ 
+    for(int x : v) 
+      System.out.print(x + " "); 
+ 
+    System.out.println(); 
+  } 
+ 
+  public static void main(String args[])  
+  { 
+ 
+    // Notice how vaTest() can be called with a 
+    // variable number of arguments. 
+    vaTest(10);      // 1 arg 
+    vaTest(1, 2, 3); // 3 args 
+    vaTest();        // no args 
+  } 
+}
+
+listing 29
+// Use varargs with standard arguments. 
+class VarArgs2 { 
+ 
+  // Here, msg is a normal parameter and v is a 
+  // varargs parameter. 
+  static void vaTest(String msg, int ... v) { 
+    System.out.print(msg + v.length + 
+                       " Contents: "); 
+ 
+    for(int x : v) 
+      System.out.print(x + " "); 
+ 
+    System.out.println(); 
+  } 
+ 
+  public static void main(String args[])  
+  { 
+    vaTest("One vararg: ", 10); 
+    vaTest("Three varargs: ", 1, 2, 3);  
+    vaTest("No varargs: ");  
+  } 
+}
+
+listing 30
+// Varargs and overloading. 
+class VarArgs3 { 
+ 
+  static void vaTest(int ... v) { 
+    System.out.print("vaTest(int ...): " + 
+                     "Number of args: " + v.length + 
+                     " Contents: "); 
+ 
+    for(int x : v) 
+      System.out.print(x + " "); 
+ 
+    System.out.println(); 
+  } 
+ 
+  static void vaTest(boolean ... v) { 
+    System.out.print("vaTest(boolean ...) " + 
+                     "Number of args: " + v.length + 
+                     " Contents: "); 
+ 
+    for(boolean x : v) 
+      System.out.print(x + " "); 
+ 
+    System.out.println(); 
+  } 
+ 
+  static void vaTest(String msg, int ... v) { 
+    System.out.print("vaTest(String, int ...): " + 
+                     msg + v.length + 
+                     " Contents: "); 
+ 
+    for(int x : v) 
+      System.out.print(x + " "); 
+ 
+    System.out.println(); 
+  } 
+ 
+  public static void main(String args[])  
+  { 
+    vaTest(1, 2, 3);  
+    vaTest("Testing: ", 10, 20); 
+    vaTest(true, false, false); 
+  } 
+}
+
+listing 31
+// Varargs, overloading, and ambiguity. 
+// 
+// This program contains an error and will 
+// not compile! 
+class VarArgs4 { 
+ 
+  static void vaTest(int ... v) { 
+    System.out.print("vaTest(Integer ...): " + 
+                     "Number of args: " + v.length + 
+                     " Contents: "); 
+ 
+    for(int x : v) 
+      System.out.print(x + " "); 
+ 
+    System.out.println(); 
+  } 
+ 
+  static void vaTest(boolean ... v) { 
+    System.out.print("vaTest(boolean ...) " + 
+                     "Number of args: " + v.length + 
+                     " Contents: "); 
+ 
+    for(boolean x : v) 
+      System.out.print(x + " "); 
+ 
+    System.out.println(); 
+  } 
+ 
+ 
+  public static void main(String args[])  
+  { 
+    vaTest(1, 2, 3);  // OK 
+    vaTest(true, false, false); // OK 
+ 
+    vaTest(); // Error: Ambiguous! 
+  } 
+}

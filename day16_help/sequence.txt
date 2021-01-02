@@ -1,0 +1,55 @@
+Revision of Maps
+CRUD in Maps n collection view of Map
+Enter I/O
+Which devices java application can handle ?
+What are streams ?
+java.io overview
+Chaining of I/O streams
+----------------------
+Revision
+What is java.util.Map<K,V> ? : i/f 
+Map : data is stored in pair of k n v (refs)
+Entry = K n V pair = Mapping
+Map.Entry<K,V> : Entry = K n V pair = Mapping
+Implementation classes ?
+HM 
+put , putIfAbsent,putAll
+eg : map1.putAll(map2);
+containsKey , get , remove
+ LHM : ordered BUT un sorted 
+sub class of HM 
+
+TM : sorted BUT un ordered Map
+Natural ordering or Custom ordering : Key based
+
+Key : String , Value : Customer
+TreeMap() : empty Map : after u populate Map : String's compareTo
+TreeMap(Map<? extends K ,? extends V> otherMap) : 
+TreeMap<String,Customer> : HM/LHM/TM of which generic type : String , Custromer or its sub-type
+For sorting : String's compareTo
+
+TreeMap(Comparator<? super K> comp) : empty Map
+After population : comp's compare
+
+Limitations of a Map 
+ no itr , no index based api , searching  / removing / retriving /sorting : key 
+Solution : collection view of a map.
+1. keys : public Set<K> keySet()
+2. values : public Collection<V> values()
+3. Both (K n V) : public Set<Map.Entry<K,V>> entrySet();
+CRUD func .
+--------------------------------
+I/O 
+1. Reading data from a text file in a buffered manner : till EOF
+2. Buffered text file copy .
+3. Collection n I/O Integration
+3.1 Create java application.
+Use Collection Utils , to get populated Students information in a Map(HashMap)
+
+Options
+3.2 Sort it as per student's roll no & store it text file in buffered manner.
+eg : pw.println(tm);
+3.3 Sort it as per student's GPA & store it text file in buffered manner.
+map ---> vaues ---> Collection<S>
+Collection ---> TreeSet (Comp) : ano inner cls
+Collection --> List(AL) --->Collections.sort(list,comp);

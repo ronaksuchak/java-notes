@@ -1,0 +1,72 @@
+Today's topics
+How to compute age(for senior citizen based requirement)?
+Solve this 
+Sorting in Java 
+More about generic syntax : ? , extends ,super
+Iterator / ListIterator
+Exceptions / problems with Iterator
+Handling Sets
+Revise Set Overview
+Set i/f features
+Implementation classes --HashSet , LinkedHashSet  , TreeSet
+Hashing algorithm based upon -- hashCode & equals
+LinkedHashSet  
+TreeSet -- Sorted Set (Natural Order--Comparable OR Custom Order--Comparator)
+Solve examples on 2D arrays with mem pics
+-------------------------
+1. How to compute age(for senior citizen based requirement)?
+add a instance method to Customer class : computeAgeInYears
+public int computeAgeInYears()
+{
+ return Period.between(this.dob,LocalDate.now()).getYears();
+}
+Tester :
+for(Customer c : customerList)
+ if(c.computeAgeInYears() > 55)
+   c.applyDiscount(percentDiscount);
+
+2. Method overriding n exception handling
+Overriding form of the method(sub class version) CAN'T throw (or include in its throws clause) any NEW or BROADER CHECKED exceptions.
+
+
+3.Collections class(Non generic class) :  Method
+public static  <T extends Comparable<? super T>> void sort(List<T> list)
+
+
+Arrays class Method
+public static <T> List<T> asList(T... a)
+Use this to convert Emp[] emps to a fixed size list
+List<Emp> empList=Arrays.asList(emps);
+
+List<Emp> empList=Arrays.asList(e1,e2,e3,e4);
+
+//List<Emp> empList=Arrays.asList();
+
+empList.set(0,e5);//no err : no size modification : no struct modi.
+empList.add(0,e6);//insert :  size modification : struct modi. : UnsupportedOpExc.
+
+Objective : Option 10 : Sort bank accounts as per a/c creation date 
+
+Objective : Option 11 : Sort bank accounts as per a/c creation date n balance
+Option 12 : Sort as per cust's phone no
+
+Are there any limitations of Natural Ordering ?
+
+ 
+Objective :  Sort bank accounts as per a/c creation date n balance (w/o touching UDT)
+
+
+double d1=12.34;
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,110 @@
+Revise
+
+What is a Thread ?
+Smallest sub  part of a process --which can run in async parrallel manner 
+Represents separate flow of control.
+
+Why ?
+To inc effective utilization of resources (CPU , I/O peripherals : resources)
+Use cases : GUI programming (animations) , Web servers (handling concurrent requests)
+
+Thread state transitions
+1. Doesn't exist --- NEW 
+1.1 extends Thread : which constrs ?
+Thread() , Thread(String name)
+1.2 implements Runnable : which constrs ?
+Thread(Runnable task)
+Thread(Runnable task,String name)
+Runnable task : instance of a class that imple Runnable i/f
+
+
+
+What is mandatory in either of scenarios (extends / implements)
+MUST override / implement run()
+
+What will happen ?
+1. extends Thread n don't override run() : do-nothing thread(useless!)
+2. implements Runnable  n don't implement run() : javac error
+
+What will happen ?
+Instead of calling start() , run() method is invoked? : no multi threading : entire B.L will be delegated to main thread.
+
+2. NEW -- only instance is created on heap
+NEW -- Ready-to-Run pool  : public void start()
+pool : collection of rdy to run thrds
+Rdy + Running  = RUNNABLE
+
+Running : exec run()
+Dead : run() rets 
+Running ---Blocked
+Blocked --- blocking condition removed -- Ready 
+
+3. Summarise blocking n un blocking triggers
+
+----------------------------
+1. Use implements Runnable scenario to print even n odd numbers.
+
+Objectives 
+1. sleep n interrupt (use ano inner class to create a thread)
+
+
+
+2. Consider threads :  t1 & t2 
+t1's run() : t2.join()
+t2's run() : Loop  (indefinitely running) with intermittent sleep
+main waiting for t1 n t2 to finish exec.
+What will happen ? : 
+Fix it!
+
+3. Consider threads :  t1 & t2 
+t1's run() : t2.join()
+t2's run() : Blocked on I/O
+main waiting for t1 n t2 to finish exec.
+What will happen ? : 
+Fix it!
+
+4. Solving assignemnt 
+1. CollectionUtils : sorting methods
+2. IOUtils : writeData
+3. Create child thrds (implements)
+4. main
+
+5. Solve practical assignemnt (Collection + I/O + Threads)
+
+1. Consider joint account : BankAccount
+inst var : balance
+update balance
+check balance
+
+2. Runnable Tasks
+UpdaterTask 
+run() : invoke BankAccount's update balance
+jointAccount.updateBalance(...);
+
+CheckerTask
+run() : invoke SAME BankAccount's check balance
+ jointAccount.checkBalance();
+
+3. main : create joint acct instance n pass it to these tasks : option 1
+
+Problem : ??????????
+Solution : ???????????
+
+4. Solve More examples 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

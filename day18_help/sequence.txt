@@ -1,0 +1,47 @@
+Revise
+Serialization & de-serialization with Object streams.
+What is a serialization? -- conversion from state of the java obj/s ----> binary stream
+De -serialization -- re construction of java obj /s from binary streams ---> obj / obj graph
+what exactly get serialized ? : state (non static n non transient data members) 
+Contents of serialized bin stream : state + meta data info required duiring de -serial.
+Why  ---- PERSISTENCE
+which classes ? : serial : ObjectOutputStream(OutputStream out)
+eg : Bin file --- out :  FOS    Socket : SOS      Pipe:  POS
+de-serial : FIS / SIS / PipedInputStream
+Identify chain of streams
+serial : bin file
+JA  ---->OOS--->FOS---->Bin File
+OOS out=new OOS(new FOS(fileName));
+When will JVM throw java.io.NotSerializableException ?
+During serialization : public void writeObject(Object o) throws IOExc ,NotSerializableException 
+eg : out.writeObject(hm);
+//HashMap<String,Customer> : HM , String , Customer ---name,email,regAmount , date, type ,adr
+JVM : checks the serializability of the entire object graph , even if any single node is NOT Serializable , entire serialixzation fails : NotSerializableException
+
+
+Solution : java.io.Serializable : i/f : empty (tag / marker)
+JOb : To provide a run time marker : JVM
+
+Walk through day17_lab & proceed.
+
+
+
+1. Student : not Serializable & Address : not Serializable 
+NotSerializableException : Student
+ 
+2. Student : Serializable & Address : not Serializable
+ NotSerializableException : Address
+
+
+Business scenario : Adress class is written by a 3rd party & given to you in form of .class or .jar file , with a readme : Address class IS NOT serializable.
+So in this case can you store n restore partial state of a Student (excluding the address details)
+
+
+3. Student : Serializable & Address : not Serializable , transient address
+
+
+4.  Student : Serializable & Address : Serializable , transient address
+
+5.Create another project . Don't copy com.app.core classes & try de-serialization
+
+Enter Threads

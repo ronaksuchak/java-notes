@@ -1,0 +1,75 @@
+Thread related API
+
+Starting point 
+1. java.lang.Runnable --functional i/f (i/f containing single abstract method)
+SAM -- public void run()
+Prog MUST override run() -- to supply thread exec. logic.
+
+2. java.lang.Thread --class -- imple . Runnable
+It has imple. run() -- blank manner.
+
+3. Constrs of Thread class in "extends" scenarion
+3.1 Thread() -- Creates a new un-named thrd.
+3.2 Thread(String name) -- Creates a new named thrd.
+
+4. Constrs of Thread class in "implements" scneario
+4.1 Thread(Runnable instance) -- Creates a new un-named thrd.
+Runnable instance -- inst of the class that imple. Runnable
+4.2 Thread(Runnable instance,String name) -- Creates a new named thrd.
+
+Methods of Thread class
+1. public void start() -- To cause transition from NEW -- RUNNABLE
+throws IllegalThreadStateException -- if thrd is alrdy runnable or dead. 
+2. public static void yield() -- Requests the underlying native scheduler to release CPU & enters rdy pool.
+Use case -- co operative multi tasking(to allow lesser prio thrds to access processor)
+
+3. public void setName(String nm)
+4. public String getName()
+5. Priority scale -- 1---10
+Thread class consts --MIN_PRIO=1 , MAX_PRIO=10 , NORM_PRIO =5
+public void setPriority(int prio)
+6. public static Thread currentThread() -- rets invoker(current) thrd ref.
+7. public String toString() -- Overrides Object class method , to ret
+Thread name,priority,name of thrd grp.
+8.public static void sleep(long ms) throws InterruptedException
+Pauses the invoker thread for specified duration.
+Blocking API 
+Un blocking triggers : sleep over / interrupt
+9. public void join()  throws InterruptedException
+--Causes the invoker thread to block till specified thread gets over.
+eg : t1 : run() --- ....t2.join();//t1 get BLOCKED until t2 gets over 
+t2 : run() -- some B.L
+
+10  public void join(long ms)  throws InterruptedException
+--Causes the invoker thread to block till specified thread gets over OR tmout elapsed or interrupt
+eg : t1 : t2.join(1000);
+11. public void interrupt() -- interrupts(un blocks ) the threads blocked on ---sleep/join/wait
+
+
+
+Methods of Object class (Use Case : Inter thread communication)
+
+1. public final void wait() throws InterruptedException,IllegalMonitorStateException
+Meaning -- Forces  the invoker thread to release processor & monitor & wait outside .
+
+Trigger for InterruptedException
+Some other thread sends interrupt signal to the waiting thread.
+Trigger for IllegalMonitorStateException
+If the invoker thread is not an owner of the monitor
+(When does a Thread become owner of the monitor/lock : if it's invoking either a synched method or a block)
+
+2. public final void notify() throws IllegalMonitorStateException
+Meaning -- Un blocks (wakes up) exactly 1 thread , which has invoked wait on the same object's monitor.
+
+May raise IllegalMonitorStateException --if the current thread is not the owner of a lock.
+
+3. public final void notifyAll() throws IllegalMonitorStateException
+Un blocks ALL waiting threads , on the same object's monitor.
+
+
+
+
+
+
+
+ 
